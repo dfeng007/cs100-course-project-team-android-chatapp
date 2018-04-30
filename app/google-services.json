@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "640893688805",
+    "firebase_url": "https://ucrchatapp.firebaseio.com",
+    "project_id": "ucrchatapp",
+    "storage_bucket": "ucrchatapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640893688805:android:4773f4f2cbe3184c",
+        "android_client_info": {
+          "package_name": "team1.cs100.ucrchatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "640893688805-d3g94hrsjpqb8c1goimg3dco2kakmbbu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "team1.cs100.ucrchatapp",
+            "certificate_hash": "d2fa828bb1e3817c506ed0f45e4df96dc9961228"
+          }
+        },
+        {
+          "client_id": "640893688805-k87j168tbkv14a55u9ulqtmk9h6hf1te.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKS8cLA2T3Qj2g9m0XsYwV46Cawy3I6vY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "640893688805-k87j168tbkv14a55u9ulqtmk9h6hf1te.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
