@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout mRegUserName;
     private TextInputLayout mRegUserEmail;
     private TextInputLayout mRegUserPassword;
+    private android.support.v7.widget.Toolbar mRegToolBar;
 
     //button
     private Button mRegCreateButton;
@@ -47,6 +49,11 @@ public class RegisterActivity extends AppCompatActivity {
         mRegUserPassword = findViewById(R.id.reg_password_field);
 
         mRegCreateButton = findViewById(R.id.reg_create_button);
+
+        mRegToolBar = findViewById(R.id.register_toolbar);
+        setSupportActionBar(mRegToolBar);
+        getSupportActionBar().setTitle("Create Account");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //listen for button click
         mRegCreateButton.setOnClickListener(new View.OnClickListener() {

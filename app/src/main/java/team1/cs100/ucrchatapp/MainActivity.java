@@ -3,6 +3,8 @@ package team1.cs100.ucrchatapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -10,6 +12,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+
+    /*widget and views instances*/
+    private android.support.v7.widget.Toolbar mMainToolBar;
 
 
     /*Firebase Authentication*/
@@ -23,6 +28,13 @@ public class MainActivity extends AppCompatActivity {
         /*initialize the FirebaseAuth instance*/
         mAuth = FirebaseAuth.getInstance();
 
+        //define
+        mMainToolBar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(mMainToolBar);
+        getSupportActionBar().setTitle("UCR Chat App");
+
+
+
 
 
         //test
@@ -34,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
          * in. So if you are testing the registering and it keeps taking you back to start activity
          * thats why.
          */
-         mAuth.signOut();
+         //mAuth.signOut();
 
     }
 
@@ -52,10 +64,8 @@ public class MainActivity extends AppCompatActivity {
          **************************************************************************************/
 
         if (currentUser == null) {
-            //Start sign in/sign up process
-            Intent startActivityIntent = new Intent(MainActivity.this, StartActivty.class);
-            startActivity(startActivityIntent);
-            finish();
+            //send to start activity
+            sendToStart();
 
         } else {
             //user is already signed in. Therefor display a welcome toast
@@ -65,4 +75,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void sendToStart() {
+        //Start sign in/sign up process
+        Intent startActivityIntent = new Intent(MainActivity.this, StartActivty.class);
+        startActivity(startActivityIntent);
+        finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+
+
+        return  true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        if (item.getItemId() == R.id.main_action_signout) {
+            //Signout button in the toolbar was pressed log the user out
+            mAuth.signOut();
+
+            //send to start activity
+            sendToStart();
+
+            Toast.makeText(this, "Sign Out Successfull", Toast.LENGTH_SHORT).show();
+        } else {
+
+        }
+
+        return true;
+    }
 }

@@ -4,5 +4,8 @@
     <string name="reg_name">Display Name</string>
     <string name="reg_email">Email</string>
     <string name="reg_password">Password</string>
-    <string name="reg_create_account_button">Create</string>
+    <string name="reg_create_account_button">CREATE ACCOUNT</string>
+    <string name="main_toolbar_signout">sign out</string>
+    <string name="main_toolbar_settings">settings</string>
+    <string name="register_prompt_text">Create a New Account</string>
 </resources>
