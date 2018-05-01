@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- "Mark Favorite", should appear as action button if possible -->
+    <!-- "sign out" option for the user -->
     <item
         android:id="@+id/main_action_signout"
         android:title="@string/main_toolbar_signout"/>
 
-    <!-- Settings, should always be in the overflow -->
+    <!-- Profile option-->
     <item android:id="@+id/main_action_settings"
-        android:title="@string/main_toolbar_settings"/>
+        android:title="@string/main_toolbar_profile"/>
 
 </menu>

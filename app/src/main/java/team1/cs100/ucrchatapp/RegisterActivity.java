@@ -1,6 +1,7 @@
 
 package team1.cs100.ucrchatapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -32,6 +33,9 @@ public class RegisterActivity extends AppCompatActivity {
     //button
     private Button mRegCreateButton;
 
+    //progress dialog
+    private ProgressDialog mRegProgressDialog;
+
     /*Firebase Authentication*/
     private FirebaseAuth mAuth;
 
@@ -55,6 +59,8 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Create Account");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mRegProgressDialog = new ProgressDialog(this);
+
         //listen for button click
         mRegCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +69,12 @@ public class RegisterActivity extends AppCompatActivity {
                 String user_name = mRegUserName.getEditText().getText().toString();
                 String user_email = mRegUserEmail.getEditText().getText().toString();
                 String user_password = mRegUserPassword.getEditText().getText().toString();
+
+                //show the progress dialog
+                mRegProgressDialog.setTitle("Registering user");
+                mRegProgressDialog.setMessage("Please wait while we create your account");
+                mRegProgressDialog.setCanceledOnTouchOutside(false);
+                mRegProgressDialog.show();
 
                 //create account
                 createAccount(user_name, user_email, user_password);
@@ -82,21 +94,28 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
+
+                            //dismiss progress dialog
+                            mRegProgressDialog.dismiss();
+
+                            //add user name to firbase
+
+
+                            //get firebase user
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             /*NOTE:
-                            * will also add user name to firebase I don't know how to do that
-                            * yet if any of you know please add it*/
+                             * will also add user name to firebase I don't know how to do that
+                             * yet if any of you know please add it*/
 
-                            //send user to MainActvity which is the users home page
-                            Intent mainIntent = new Intent(RegisterActivity.this,
-                                                                                MainActivity.class);
-                            startActivity(mainIntent);
-                            //we don't want the user to return to the page
-                            finish();
+                            sendToMain();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
+
+                            //hind the progress bar
+                            mRegProgressDialog.hide();
+
                             Toast.makeText(RegisterActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -104,6 +123,16 @@ public class RegisterActivity extends AppCompatActivity {
                         // ...
                     }
                 });
+    }
+
+    private void sendToMain() {
+        //send user to MainActvity which is the users home page
+        Intent mainIntent = new Intent(RegisterActivity.this,
+                MainActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(mainIntent);
+        //we don't want the user to return to the page
+        finish();
     }
 
     private boolean validateForm() {

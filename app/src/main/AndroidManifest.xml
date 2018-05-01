@@ -18,12 +18,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-
+            android:parentActivityName=".StartActivty"
         <!-- Back arrow to start activity-->
         <activity android:name=".RegisterActivity"
-            android:parentActivityName=".StartActivty" />
+            android:parentActivityName=".StartActivity" />
 
-        <activity android:name=".StartActivty"></activity>
+        <activity android:name=".StartActivity"></activity>
     </application>
 
 </manifest>

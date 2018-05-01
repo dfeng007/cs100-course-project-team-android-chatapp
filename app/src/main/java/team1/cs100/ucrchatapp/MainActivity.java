@@ -34,9 +34,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("UCR Chat App");
 
 
-
-
-
         //test
         /*
          * NOTE: To team members I need to include this because without it ounce your
@@ -46,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
          * in. So if you are testing the registering and it keeps taking you back to start activity
          * thats why.
          */
-         //mAuth.signOut();
+        //mAuth.signOut();
 
     }
 
@@ -87,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.main_activity_menu, menu);
-
 
         return  true;
     }
