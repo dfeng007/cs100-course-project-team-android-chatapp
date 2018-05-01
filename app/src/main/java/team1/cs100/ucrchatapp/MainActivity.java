@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        if (currentUser == null) {
+
         /*
          * ************************************************************************************
          * Checking if current user is logged in if yes then perform and load chat logic and ui.
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             //user is already signed in. Therefor display a welcome toast
-            Toast.makeText(this, "Welcome Back!!!"  FirebaseAuth.getInstance()
+            Toast.makeText(this, "Welcome Back!!!" + FirebaseAuth.getInstance()
                     .getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
 
         }
