@@ -1,1 +1,2 @@
-# cs100 team1 project, creating an android real time chat app
+# cs 100 spring 2018 android chat app team 1 project
+
