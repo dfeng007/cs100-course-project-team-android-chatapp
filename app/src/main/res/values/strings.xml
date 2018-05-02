@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">ucrapp</string>
+    <string name="app_name">UcrChatApp</string>
+    <string name="start_register_button">Create New Account</string>
+    <string name="hint_name">Username</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="reg_create_account_button">CREATE ACCOUNT</string>
+    <string name="main_toolbar_signout">sign out</string>
+    <string name="main_toolbar_profile">profile</string>
+    <string name="register_prompt_text">Create a New Account</string>
+    <string name="start_sign_in_button">SIGN IN</string>
+    <string name="start_welcome_promt">Welcome UCR Chat App</string>
+    <string name="login_signin_button">LOGIN</string>
+    <string name="login_prompt_text">Login to your account</string>
+    <string name="main_request_tab">request</string>
+    <string name="main_chat_tab">chat</string>
+    <string name="main_friends_tab">friends</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
