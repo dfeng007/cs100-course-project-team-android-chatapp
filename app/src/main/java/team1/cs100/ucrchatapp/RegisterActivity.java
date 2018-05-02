@@ -54,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Create Account");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         //listen for button click
         mRegCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
