@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import android.widget.Toolbar;
+//import android.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,17 +33,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mMainToolBar);
         getSupportActionBar().setTitle("UCR Chat App");
 
-
-        //test
-        /*
-         * NOTE: To team members I need to include this because without it ounce your
-         * sign in you can't signed out because of the google "smartlock".
-         * When the sign out logic is implemented go ahead and remove this.
-         * Also this will skip the MainActivaity page becuase the user is never going tp be signed
-         * in. So if you are testing the registering and it keeps taking you back to start activity
-         * thats why.
-         */
-        //mAuth.signOut();
 
     }
 
@@ -79,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    private void sendToProfile() {
+        //Send to profile page
+        Intent startActivityIntent = new Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(startActivityIntent);
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -99,11 +95,10 @@ public class MainActivity extends AppCompatActivity {
             //send to start activity
             sendToStart();
 
-            Toast.makeText(this, "Sign Out Successfull", Toast.LENGTH_SHORT).show();
-        } else {
-
+            Toast.makeText(this, "Sign Out Successful", Toast.LENGTH_SHORT).show();
+        } else if(item.getItemId() == R.id.main_action_settings){
+            sendToProfile();
         }
-
         return true;
     }
 }

@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
+    //TODO: Make sure the user_name parameter in this method is being used for something
     private void createAccount(String user_name, String user_email, String user_password) {
         Log.d(TAG, "createAccount:" + user_email);
         if (!validateForm()) {
@@ -99,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             //add user name to firbase
 
-
+                            //TODO: user variable not being used
                             //get firebase user
                             FirebaseUser user = mAuth.getCurrentUser();
 
