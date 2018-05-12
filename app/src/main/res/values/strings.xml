@@ -16,6 +16,15 @@
     <string name="main_chat_tab">chat</string>
     <string name="main_friends_tab">friends</string>
 
+    <string name="hint_change_name">Change Name</string>
+    <string name="hint_change_email">Change email</string>
+    <string name="hint_change_bio">Change Bio</string>
+    <string name="customize_save_button">SAVE</string>
+    <string name="customize_cancel_button">CANCEL</string>
+    <string name="customize_edit_button">EDIT</string>
+    <string name="profile_photo">Profile Photo</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
