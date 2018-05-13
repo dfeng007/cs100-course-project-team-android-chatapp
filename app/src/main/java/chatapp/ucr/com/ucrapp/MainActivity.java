@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendToProfile() {
         //Send to profile page
-        Intent startActivityIntent = new Intent(MainActivity.this, ProfileActivity.class);
+        Intent startActivityIntent = new Intent(MainActivity.this, CustomizeActivity.class);
         startActivity(startActivityIntent);
 
     }
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             sendToStart();
 
             Toast.makeText(this, "Sign Out Successful", Toast.LENGTH_SHORT).show();
-        } else if(item.getItemId() == R.id.main_action_settings){
+        } else if(item.getItemId() == R.id.main_action_profile){
             sendToProfile();
         }
         return true;

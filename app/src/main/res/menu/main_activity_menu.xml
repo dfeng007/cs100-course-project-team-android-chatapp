@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
         <!-- Profile option-->
-        <item android:id="@+id/main_action_settings"
+        <item android:id="@+id/main_action_profile"
             android:title="@string/main_toolbar_profile"/>
 
         <!-- "sign out" option for the user -->
