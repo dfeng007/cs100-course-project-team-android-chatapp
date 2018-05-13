@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         mRegCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //get strings from all the fields
+                //get strings from all the field
                 String user_name = mRegUserName.getEditText().getText().toString();
                 String user_email = mRegUserEmail.getEditText().getText().toString();
                 String user_password = mRegUserPassword.getEditText().getText().toString();
