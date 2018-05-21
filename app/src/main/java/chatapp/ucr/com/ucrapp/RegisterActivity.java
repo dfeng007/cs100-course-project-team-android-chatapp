@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
+import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
+import chatapp.ucr.com.ucrapp.DatabaseClasses.UserInformation;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -38,6 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
     /*Firebase Authentication*/
     private FirebaseAuth mAuth;
 
+    private String userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         /*initialize the FirebaseAuth instance*/
         mAuth = FirebaseAuth.getInstance();
+
 
         //assignment of fields and widgets
         mRegUserName = findViewById(R.id.reg_name_field);
@@ -77,11 +81,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //create account
                 createAccount(user_name, user_email, user_password);
+
             }
         });
     }
     //TODO: Make sure the user_name parameter in this method is being used for something
-    private void createAccount(String user_name, String user_email, String user_password) {
+    private void createAccount(final String user_name, final String user_email, final String user_password) {
         Log.d(TAG, "createAccount:" + user_email);
         if (!validateForm()) {
             return;
@@ -101,11 +106,16 @@ public class RegisterActivity extends AppCompatActivity {
 
                             //TODO: user variable not being used
                             //get firebase user
-                            FirebaseUser user = mAuth.getCurrentUser();
-
+                            //FirebaseUser user = mAuth.getCurrentUser();
+                            userID = mAuth.getUid();
                             /*NOTE:
                              * will also add user name to firebase I don't know how to do that
                              * yet if any of you know please add it*/
+
+                            //store information in Database
+                            UserInformation userInfo = new UserInformation(user_name, user_email, user_password);
+                            AddToDatabase addToDTB = new AddToDatabase();
+                            addToDTB.addUser(userID, userInfo);
 
                             sendToMain();
                         } else {

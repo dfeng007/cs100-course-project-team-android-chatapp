@@ -1,19 +1,26 @@
 package chatapp.ucr.com.ucrapp;
 
-import android.app.FragmentTransaction;
-import android.content.Intent;
+import android.app.ActionBar;
+import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     /*Firebase Authentication*/
     private FirebaseAuth mAuth;
+
+    private ViewPager myPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
         mMainToolBar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mMainToolBar);
         getSupportActionBar().setTitle("UCR Chat App");
+
+        //Tabs and Fragments
+        SectionsPagerAdapter myAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        myPager = (ViewPager)findViewById(R.id.main_tab_paiger);
+        myPager.setAdapter(myAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tabs);
+        tabLayout.setupWithViewPager(myPager);
 
 
     }
@@ -109,5 +126,42 @@ public class MainActivity extends AppCompatActivity {
             sendToProfile();
         }
         return true;
+    }
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+
+        private String[] tabTitles = new String[]{"REQUESTS", "CHAT", "FRIENDS"};
+
+        public SectionsPagerAdapter(FragmentManager fm) {super(fm);}
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position];
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            switch (position) {
+                case 0:
+                    RequestTabFragment tab1 = new RequestTabFragment();
+                    return tab1;
+                case 1:
+                    ChatTabFragment tab2 = new ChatTabFragment();
+                    return tab2;
+                case 2:
+                    FriendsTabFragment tab3 = new FriendsTabFragment();
+                    return tab3;
+                default:
+                    return null;
+            }
+
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
     }
 }
