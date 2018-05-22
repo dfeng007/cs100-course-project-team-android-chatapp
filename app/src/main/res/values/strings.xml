@@ -23,6 +23,7 @@
     <string name="customize_cancel_button">CANCEL</string>
     <string name="customize_edit_button">EDIT</string>
     <string name="profile_photo">Profile Photo</string>
+    <string name="type_message">Send a message</string>
 
 
 </resources>
