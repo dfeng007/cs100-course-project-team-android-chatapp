@@ -1,28 +1,22 @@
 package chatapp.ucr.com.ucrapp.DatabaseClasses;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ChatList {
 
-    private ArrayList<Map> chatList;
+    private ArrayList<String> chatList;
 
     public ChatList(){
-
+        chatList = new ArrayList<String>();
     }
 
-    public void addChat(String chatID, String title){
+    public void addChat(String chatID){
 
-        Map<String, String> chatMap = new HashMap<>();
-        chatMap.put(chatID, title);
-
-        chatList.add(chatMap);
+        chatList.add(chatID);
     }
     
-    public ArrayList<Map> getChatList(){
+    public ArrayList<String> getChatList(){
         return chatList;
     }
-
 
 }

@@ -1,23 +1,20 @@
 package chatapp.ucr.com.ucrapp.DatabaseClasses;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FriendsList {
 
-    private ArrayList<Map> friendList;
+    private ArrayList<String> friendList;
 
     public FriendsList(){
+        friendList = new ArrayList<String>();
     }
 
     public void addFriend(String friendUID){
-        Map<String, Boolean> friendMap = new HashMap<>();
-        friendMap.put(friendUID, false);
-        friendList.add(friendMap);
+        friendList.add(friendUID);
     }
 
-    public ArrayList<Map> getFriendList(){
+    public ArrayList<String> getFriendList(){
         return friendList;
     }
 }

@@ -14,16 +14,33 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
+import java.util.ArrayList;
+import java.util.Map;
+
+import chatapp.ucr.com.ucrapp.Chat.Chat;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
+import chatapp.ucr.com.ucrapp.DatabaseClasses.ChatList;
 import chatapp.ucr.com.ucrapp.Message.Message;
 import chatapp.ucr.com.ucrapp.Message.TextMessage;
 
 
 public class ChatTabFragment extends Fragment {
+
+    private DatabaseReference root;
+    private String userID;
+    private Chat chat;
+    private AddToDatabase addData;
+    private ChatList chtList;
 
     protected FirebaseListAdapter<TextMessage> adapter;
 
@@ -41,6 +58,30 @@ public class ChatTabFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        root = FirebaseDatabase.getInstance().getReference().getRoot();
+        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        chat = new Chat();
+        final String chatID = chat.createChat();
+        addData = new AddToDatabase();
+        chtList = new ChatList();
+        chtList.addChat(chatID);
+
+        addData.addChatList(chtList, userID);
+
+        root.child("chatLists").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ChatList chatList = dataSnapshot.getValue(ChatList.class);
+
+                chatList.addChat(chatID);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -49,27 +90,80 @@ public class ChatTabFragment extends Fragment {
         //ListView l;
         //final ArrayList<String> days = new ArrayList<>();
 
-        displayChatMessage(rootView);
+        root.child("chatLists").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ChatList chatListObject = dataSnapshot.getValue(ChatList.class);
+
+                ArrayList<String> chatList = chatListObject.getChatList();
+
+                if (!chatList.isEmpty()) {
+
+                    String chatID = chatList.get(0);
+
+                    displayChatMessage(rootView, chatID);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+//        displayChatMessage(rootView);
 
         FloatingActionButton fab;
         fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton2);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText input = (EditText)rootView.findViewById(R.id.text_box);
+                final EditText input = (EditText)rootView.findViewById(R.id.text_box);
 
                 // Read the input field and push a new instance
                 // of ChatMessage to the Firebase database
-                Message msg = new TextMessage(input.getText().toString());
-                AddToDatabase database = new AddToDatabase();
-
-                database.addTextMessage(msg);
+                final Message msg = new TextMessage(input.getText().toString());
+                final AddToDatabase database = new AddToDatabase();
 
 
-                displayChatMessage(rootView);
+                //Test Not real implementation, Requires create a new chat button and implementation
+                root.child("chatLists").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ChatList chatListObject = dataSnapshot.getValue(ChatList.class);
 
-                // Clear the input
-                input.setText("");
+                        ArrayList<String> chatList = chatListObject.getChatList();
+
+                        if (!chatList.isEmpty()) {
+
+                            String chatID = chatList.get(0);
+
+                            //needs to be passed the unique chatID for the given chat
+                            database.addTextMessage(msg, chatID);
+
+
+                            displayChatMessage(rootView, chatID);
+
+                            // Clear the input
+                            input.setText("");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+//                //needs to be passed the unique chatID for the given chat
+//                database.addTextMessage(msg);
+//
+//
+//                displayChatMessage(rootView);
+//
+//                // Clear the input
+//                input.setText("");
             }
         });
 
@@ -87,11 +181,11 @@ public class ChatTabFragment extends Fragment {
 
     }
 
-    public void displayChatMessage(View view) {
+    public void displayChatMessage(View view, String chatID) {
         ListView listOfMessages = (ListView) view.findViewById(R.id.list);
 
         //Suppose you want to retrieve "chats" in your Firebase DB:
-        Query query = FirebaseDatabase.getInstance().getReference().child("messages");
+        Query query = FirebaseDatabase.getInstance().getReference().child("messages").child(chatID);
 //The error said the constructor expected FirebaseListOptions - here you create them:
         FirebaseListOptions<TextMessage> options = new FirebaseListOptions.Builder<TextMessage>()
                 .setQuery(query, TextMessage.class)

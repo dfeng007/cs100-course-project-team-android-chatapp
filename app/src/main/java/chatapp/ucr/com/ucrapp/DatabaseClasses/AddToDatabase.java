@@ -26,15 +26,15 @@ public class AddToDatabase {
         myref.child("messages").child(chatID).push().setValue(newMessage);
     }
 
-    public void addChatMetaData(ChatMetaData metaData){
-
+    public void addChatMetaData(ChatMetaData metaData, String chatID){
+        myref.child("chats").child(chatID).setValue(metaData);
     }
 
-    public void addFriendsList(FriendsList friendsList){
-
+    public void addFriendsList(FriendsList friendsList, String userID){
+        myref.child("friendLists").child(userID).setValue(friendsList);
     }
 
-    public void addChatList(ChatList chatList){
-
+    public void addChatList(ChatList chatList, String userID){
+        myref.child("chatLists").child(userID).setValue(chatList);
     }
 }
