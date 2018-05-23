@@ -22,7 +22,19 @@ public class AddToDatabase {
         myref.child("users").child(userID).setValue(userInfo);
     }
 
-    public void addTextMessage(Message newMessage) {
-        myref.child("messages").push().setValue(newMessage);
+    public void addTextMessage(Message newMessage, String chatID) {
+        myref.child("messages").child(chatID).push().setValue(newMessage);
+    }
+
+    public void addChatMetaData(ChatMetaData metaData){
+
+    }
+
+    public void addFriendsList(FriendsList friendsList){
+
+    }
+
+    public void addChatList(ChatList chatList){
+
     }
 }

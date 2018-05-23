@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.UserInformation;
@@ -106,8 +107,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                             //TODO: user variable not being used
                             //get firebase user
-                            //FirebaseUser user = mAuth.getCurrentUser();
-                            userID = mAuth.getUid();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            userID = user.getUid();
                             /*NOTE:
                              * will also add user name to firebase I don't know how to do that
                              * yet if any of you know please add it*/
