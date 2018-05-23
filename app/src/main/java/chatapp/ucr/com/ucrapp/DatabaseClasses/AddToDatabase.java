@@ -9,6 +9,7 @@ import chatapp.ucr.com.ucrapp.Message.TextMessage;
 
 public class AddToDatabase {
 
+
     private FirebaseDatabase database;
     private DatabaseReference myref;
 

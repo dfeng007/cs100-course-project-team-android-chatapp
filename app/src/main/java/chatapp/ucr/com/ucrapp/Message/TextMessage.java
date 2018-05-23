@@ -1,7 +1,8 @@
 package chatapp.ucr.com.ucrapp.Message;
 
-public class TextMessage extends Message {
 
+
+public class TextMessage extends Message {
     public TextMessage() {
         super();
     }

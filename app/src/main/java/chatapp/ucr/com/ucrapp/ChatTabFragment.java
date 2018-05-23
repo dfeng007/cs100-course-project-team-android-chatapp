@@ -25,38 +25,28 @@ import chatapp.ucr.com.ucrapp.Message.TextMessage;
 
 public class ChatTabFragment extends Fragment {
 
-    protected FirebaseListAdapter<TextMessage> adapter;
-
     public ChatTabFragment() {
             //Required empty constructor
     }
 
     @Override
-    public void onAttach(final Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.chat_tab, container, false);
-        //ListView l;
-        //final ArrayList<String> days = new ArrayList<>();
 
         displayChatMessage(rootView);
+        sendButtonSetup(rootView);
+        return rootView;
+    }
 
+    //This class takes in the root View object (xml) in which the button is found
+    //It tells the send button what to do when clicked
+    public void sendButtonSetup(final View view) {
         FloatingActionButton fab;
-        fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton2);
+        fab = (FloatingActionButton) view.findViewById(R.id.floatingActionButton2);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText input = (EditText)rootView.findViewById(R.id.text_box);
+                EditText input = (EditText)view.findViewById(R.id.text_box);
 
                 // Read the input field and push a new instance
                 // of ChatMessage to the Firebase database
@@ -66,29 +56,17 @@ public class ChatTabFragment extends Fragment {
                 database.addTextMessage(msg);
 
 
-                displayChatMessage(rootView);
+                displayChatMessage(view);
 
                 // Clear the input
                 input.setText("");
             }
         });
-
-//        l = (ListView) rootView.findViewById(R.id.list);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, days);
-//        l.setAdapter(adapter);
-
-
-        return rootView;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
-    public void displayChatMessage(View view) {
-        ListView listOfMessages = (ListView) view.findViewById(R.id.list);
+    //This method sends a message to the firebase list options how to
+    private void displayChatMessage(View rootView) {
+        ListView listOfMessages = (ListView) rootView.findViewById(R.id.list);
 
         //Suppose you want to retrieve "chats" in your Firebase DB:
         Query query = FirebaseDatabase.getInstance().getReference().child("messages");
@@ -100,6 +78,7 @@ public class ChatTabFragment extends Fragment {
                 .build();
         //Finally you pass them to the constructor here:
 
+        FirebaseListAdapter<TextMessage> adapter;
         adapter = new FirebaseListAdapter<TextMessage>(options) {
 
             @Override
