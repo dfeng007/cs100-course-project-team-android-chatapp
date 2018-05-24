@@ -30,6 +30,7 @@ import java.util.Map;
 import chatapp.ucr.com.ucrapp.Chat.Chat;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.ChatList;
+import chatapp.ucr.com.ucrapp.DatabaseClasses.ChatUserData;
 import chatapp.ucr.com.ucrapp.Message.Message;
 import chatapp.ucr.com.ucrapp.Message.TextMessage;
 

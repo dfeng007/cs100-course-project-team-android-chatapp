@@ -11,7 +11,6 @@ public class ChatList {
     }
 
     public void addChat(String chatID){
-
         chatList.add(chatID);
     }
     
