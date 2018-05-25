@@ -3,21 +3,22 @@ package chatapp.ucr.com.ucrapp.DatabaseClasses;
 public class UserInformation {
 
     private String userName;
-    private String password;
     private String email;
+    private String picUrl;
     private Boolean online;
 
     public UserInformation() {
         this.userName = "";
         this.email = "";
-        this.password = "";
         this.online = false;
+        this.picUrl = "";
     }
 
-    public UserInformation(String userName, String email, String password) {
+    public UserInformation(String userName, String email) {
         this.userName = userName;
         this.email = email;
-        this.password = password;
+        this.online = false;
+        this.picUrl = "";
     }
 
     public void setOnline(Boolean online){ this.online = online; }
@@ -26,10 +27,6 @@ public class UserInformation {
 
     public void setUserName(String userpasswordInput) {
         this.userName = userpasswordInput;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void setEmail(String user_emailInput) {
@@ -44,8 +41,8 @@ public class UserInformation {
         return this.email;
     }
 
-    public String getPassword() {
-        return this.password;
-    }
+    public void setPicUrl(String ulr){ picUrl = ulr; }
+
+    public String getPicUrl(){ return picUrl; }
 }
 

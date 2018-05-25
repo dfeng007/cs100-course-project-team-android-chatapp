@@ -18,8 +18,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.List;
+
 import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
+import chatapp.ucr.com.ucrapp.DatabaseClasses.FriendsList;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.UserInformation;
+import chatapp.ucr.com.ucrapp.DatabaseClasses.UsersList;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -114,9 +118,10 @@ public class RegisterActivity extends AppCompatActivity {
                              * yet if any of you know please add it*/
 
                             //store information in Database
-                            UserInformation userInfo = new UserInformation(user_name, user_email, user_password);
+
                             AddToDatabase addToDTB = new AddToDatabase();
-                            addToDTB.addUser(userID, userInfo);
+
+                            addToDTB.registerNewUser(userID, user_name, user_email);
 
                             sendToMain();
                         } else {
