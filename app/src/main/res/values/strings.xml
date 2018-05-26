@@ -15,6 +15,8 @@
     <string name="main_request_tab">request</string>
     <string name="main_chat_tab">chat</string>
     <string name="main_friends_tab">friends</string>
+    <string name="create_new_chat">new chat</string>
+    <string name="hint_topic">Add Subject</string>
 
     <string name="hint_change_name">Change Name</string>
     <string name="hint_change_email">Change email</string>
