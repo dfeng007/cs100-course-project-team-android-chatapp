@@ -55,63 +55,12 @@ public class ChatTabFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        root = FirebaseDatabase.getInstance().getReference().getRoot();
-        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        chat = new Chat();
-        final String chatID = chat.createChat();
-        addData = new AddToDatabase();
-        chtList = new ChatList();
-        chtList.addChat(chatID);
-
-        addData.addChatList(chtList, userID);
-
-        root.child("chatLists").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ChatList chatList = dataSnapshot.getValue(ChatList.class);
-
-                chatList.addChat(chatID);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.chat_tab, container, false);
         //ListView l;
         //final ArrayList<String> days = new ArrayList<>();
-
-        root.child("chatLists").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ChatList chatListObject = dataSnapshot.getValue(ChatList.class);
-
-                ArrayList<String> chatList = chatListObject.getChatList();
-
-                if (!chatList.isEmpty()) {
-
-                    String chatID = chatList.get(0);
-
-                    displayChatMessage(rootView, chatID);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
 //        displayChatMessage(rootView);
 
