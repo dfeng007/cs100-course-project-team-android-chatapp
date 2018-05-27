@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,35 +53,59 @@ public class ChatTabFragment extends Fragment {
 
         displayChatMessage(rootView);
 
-        FloatingActionButton fab;
-        fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton2);
-        fab.setOnClickListener(new View.OnClickListener() {
+//        FloatingActionButton fab;
+//        fab = (FloatingActionButton) rootView.findViewById(R.id.floatingActionButton2);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EditText input = (EditText)rootView.findViewById(R.id.text_box);
+//
+//                // Read the input field and push a new instance
+//                // of ChatMessage to the Firebase database
+//                Message msg = new TextMessage(input.getText().toString());
+//                AddToDatabase database = new AddToDatabase();
+//
+//                database.addTextMessage(msg);
+//
+//
+//                displayChatMessage(rootView);
+//
+//                // Clear the input
+//                input.setText("");
+//            }
+//        });
+
+        EditText messageView = (EditText) rootView.findViewById(R.id.text_box);
+        messageView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                EditText input = (EditText)rootView.findViewById(R.id.text_box);
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                boolean handled = false;
+                if (id == EditorInfo.IME_ACTION_SEND) {
+                    //my own action here, put method
+                    EditText input = (EditText)rootView.findViewById(R.id.text_box);
 
-                // Read the input field and push a new instance
-                // of ChatMessage to the Firebase database
-                Message msg = new TextMessage(input.getText().toString());
-                AddToDatabase database = new AddToDatabase();
+                    // Read the input field and push a new instance
+                    // of ChatMessage to the Firebase database
+                    Message msg = new TextMessage(input.getText().toString());
+                    AddToDatabase database = new AddToDatabase();
 
-                database.addTextMessage(msg);
+                    database.addTextMessage(msg);
 
 
-                displayChatMessage(rootView);
+                    displayChatMessage(rootView);
 
-                // Clear the input
-                input.setText("");
+                    // Clear the input
+                    input.setText("");
+                    handled = true;
+                }
+
+                return handled;
             }
+
         });
-
-//        l = (ListView) rootView.findViewById(R.id.list);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, days);
-//        l.setAdapter(adapter);
-
-
         return rootView;
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
