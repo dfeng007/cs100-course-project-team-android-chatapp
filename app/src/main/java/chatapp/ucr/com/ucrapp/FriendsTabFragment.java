@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import chatapp.ucr.com.ucrapp.Chat.Chat;
 
 public class FriendsTabFragment extends Fragment {
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.friends_tab, container, false);
-
-        Chat newChat = new Chat();
-        return rootView;
-    }
+//
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        View rootView = inflater.inflate(R.layout.friends_tab, container, false);
+//
+//        Chat newChat = new Chat();
+//        return rootView;
+//    }
 }

@@ -1,66 +1,137 @@
 package chatapp.ucr.com.ucrapp;
 
-import android.app.ActionBar;
-import android.content.DialogInterface;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
+import java.util.ArrayList;
+
+import chatapp.ucr.com.ucrapp.DatabaseClasses.ChatMetaData;
+import chatapp.ucr.com.ucrapp.Main.ChatActivity;
+import chatapp.ucr.com.ucrapp.Main.ChatInfoActivity;
+import chatapp.ucr.com.ucrapp.Main.MetaDataAdapter;
+import chatapp.ucr.com.ucrapp.Main.MetaDataAdapterDTB;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    /*widget and views instances*/
-    private android.support.v7.widget.Toolbar mMainToolBar;
-
 
     /*Firebase Authentication*/
     private FirebaseAuth mAuth;
-
-    private ViewPager myPager;
+    private DatabaseReference root;
+    private MetaDataAdapterDTB adapterHelper;
+    private String userID;
+    private MetaDataAdapter adapter;
+    private String TAG = "MAIN";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d(TAG,"Main Test");
+
         /*initialize the FirebaseAuth instance*/
         mAuth = FirebaseAuth.getInstance();
+        root = FirebaseDatabase.getInstance().getReference();
+        userID = mAuth.getCurrentUser().getUid();
 
-        //define
-        mMainToolBar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(mMainToolBar);
-        getSupportActionBar().setTitle("UCR Chat App");
+        Button editProfileButton = (Button) findViewById(R.id.editProfileButton);
+        Button friendsListButton = (Button) findViewById(R.id.friendsListButton);
+        Button signOutButton = (Button) findViewById(R.id.signOutButton);
+        Button createChatButton = (Button) findViewById(R.id.createChatButton);
 
-        //Tabs and Fragments
-        SectionsPagerAdapter myAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        myPager = (ViewPager)findViewById(R.id.main_tab_paiger);
-        myPager.setAdapter(myAdapter);
+        Log.d(TAG,"Main Test");
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tabs);
-        tabLayout.setupWithViewPager(myPager);
+        ListView mainListView = (ListView) findViewById(R.id.mainListView);
 
+        adapterHelper = new MetaDataAdapterDTB(MainActivity.this, root, userID);
 
+        adapter = adapterHelper.getAdapter();
+        mainListView.setAdapter(adapter);
+        
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendToProfile();
+            }
+        });
+        
+        friendsListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendFriendsList();
+            }
+        });
+
+        signOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                sendToStart();
+            }
+        });
+
+        createChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendToCreateChat();
+            }
+        });
+
+        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ArrayList<ChatMetaData> metaDataList = adapter.getMetaDataList();
+
+                sendToChat(metaDataList.get(position).getChatID());
+            }
+        });
+
+    }
+
+    public void sendToChat(String chatID){
+        Intent intent = new Intent(this, ChatActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("chatapp.ucr.com.ucrapp.USER_ID", userID);
+        bundle.putString("chatapp.ucr.com.ucrapp.CHAT_ID", chatID);
+
+        intent.putExtras(bundle);
+
+        startActivity(intent);
+    }
+
+    private void sendToCreateChat() {
+        Intent intent = new Intent(this, ChatInfoActivity.class);
+        startActivity(intent);
+    }
+
+    private void sendFriendsList() {
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
+        Log.d(TAG, "On Start");
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);  //if user is Signed in then UI updates to MainActivity and if not signed in then to ActivityStart
@@ -75,14 +146,15 @@ public class MainActivity extends AppCompatActivity {
          * Else move to StartPageActivty to sign in or register the current user
          **************************************************************************************/
         if (currentUser == null) {
+            Log.d(TAG, "updateUI");
+
             //send to start activity
             sendToStart();
 
         } else {
             //user is already signed in. Therefor display a welcome toast
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            String name = user.getDisplayName();
-            Toast.makeText(this, "Welcome Back!" + name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Welcome Back!", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -102,15 +174,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
-
-        return  true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
 
@@ -126,42 +189,5 @@ public class MainActivity extends AppCompatActivity {
             sendToProfile();
         }
         return true;
-    }
-
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-
-        private String[] tabTitles = new String[]{"REQUESTS", "CHAT", "FRIENDS"};
-
-        public SectionsPagerAdapter(FragmentManager fm) {super(fm);}
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            switch (position) {
-                case 0:
-                    RequestTabFragment tab1 = new RequestTabFragment();
-                    return tab1;
-                case 1:
-                    ChatTabFragment tab2 = new ChatTabFragment();
-                    return tab2;
-                case 2:
-                    FriendsTabFragment tab3 = new FriendsTabFragment();
-                    return tab3;
-                default:
-                    return null;
-            }
-
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
     }
 }

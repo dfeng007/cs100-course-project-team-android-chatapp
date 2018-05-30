@@ -10,8 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,15 +19,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".StartActivity" />
 
-        <!-- Back arrow to start activity-->
-        <activity android:name=".LoginActivity"
+        <!-- Back arrow to start activity -->
+        <activity
+            android:name=".LoginActivity"
             android:parentActivityName=".StartActivity" />
-        <activity android:name=".RegisterActivity"
-            android:parentActivityName=".StartActivity"/>
-        <activity android:name=".CustomizeActivity"/>
+        <activity
+            android:name=".RegisterActivity"
+            android:parentActivityName=".StartActivity" />
+        <activity android:name=".CustomizeActivity" />
+        <activity android:name=".Main.FriendsListActivity" />
+        <activity android:name=".Main.ChatInfoActivity" />
+        <activity android:name=".Main.ChatActivity"></activity>
     </application>
 
 </manifest>

@@ -1,18 +1,26 @@
 package chatapp.ucr.com.ucrapp.Message;
 
-public abstract class Message {
+import java.text.SimpleDateFormat;
 
-    private String title;
+public class Message {
     private String message;
+    private String username;
+    private long timestamp;
+    private String date;
 
-    protected Message() {
-        this.title = "";
+    public Message() {
+
         this.message = "";
+        username = "";
+        timestamp = 0;
     }
 
-     protected Message(String title, String message) {
-        this.title = title;
+     public Message(String message, String username) {
         this.message = message;
+        this.username = username;
+        timestamp = System.currentTimeMillis();
+         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy\n hh:mm:ss a");
+         date = sdf.format(timestamp);
     }
 
     public void setMessage(final String message) {
@@ -23,12 +31,19 @@ public abstract class Message {
         return this.message;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getDate() {
+        return date;
     }
 
-    public String getTitle() {
-        return this.message;
+    public String getUsername() {
+        return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
 }
