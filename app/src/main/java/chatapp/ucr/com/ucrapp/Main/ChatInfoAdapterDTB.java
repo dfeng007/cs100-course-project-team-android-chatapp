@@ -58,7 +58,9 @@ public class ChatInfoAdapterDTB {
                 if (dataSnapshot.exists()) {
                     usersList = dataSnapshot.getValue(UsersList.class);
 
-                    fetchData();
+                    for (int i = 0; usersList.getUsersList().size() > i; i++) {
+                        fetchdata(i);
+                    }
                 } else {
                     root.child("usersLists").setValue(new UsersList());
                 }
@@ -72,14 +74,7 @@ public class ChatInfoAdapterDTB {
 
     }
 
-    private void fetchData() {
-
-        for (int i = 0; usersList.getUsersList().size() > i; i++) {
-            fetchUserForList(i);
-        }
-    }
-
-    private void fetchUserForList(final int i){
+    private void fetchdata(final int i){
         root.child("users").child(usersList.getUsersList().get(i)).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

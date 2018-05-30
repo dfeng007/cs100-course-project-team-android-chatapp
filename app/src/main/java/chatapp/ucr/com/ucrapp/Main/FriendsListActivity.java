@@ -62,7 +62,7 @@ public class FriendsListActivity extends AppCompatActivity {
 
                 String chatID = chat.createChat(chatMembers);
 
-                addToDatabase.addUsersToChat(userID, chatMembers);
+                addToDatabase.addUsersToChat(chatID, chatMembers);
 
                 Intent intent = new Intent(FriendsListActivity.this, ChatActivity.class);
                 intent.putExtra("CHATID", chatID);

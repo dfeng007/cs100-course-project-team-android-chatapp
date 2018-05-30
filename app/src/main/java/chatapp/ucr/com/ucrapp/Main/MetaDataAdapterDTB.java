@@ -1,7 +1,6 @@
 package chatapp.ucr.com.ucrapp.Main;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -10,16 +9,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import chatapp.ucr.com.ucrapp.Chat.Chat;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.ChatList;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.ChatMetaData;
 
 public class MetaDataAdapterDTB {
     private DatabaseReference root;
-    private ArrayList<ChatMetaData> chatMetaData = new ArrayList<>();
+    private ArrayList<ChatMetaData> chatMetaDataList = new ArrayList<>();
     private String userID;
     private ChatList chatList;
-    private int i;
     private MetaDataAdapter adapter;
     private final String TAG = "META";
 
@@ -37,7 +34,7 @@ public class MetaDataAdapterDTB {
 
         retrieveMetaDataList();
 
-        return chatMetaData;
+        return chatMetaDataList;
     }
 
     private void retrieveMetaDataList(){
@@ -48,7 +45,9 @@ public class MetaDataAdapterDTB {
                 if(dataSnapshot.exists()){
                     chatList = dataSnapshot.getValue(ChatList.class);
 
-                    fetchData();
+                    for( int i = 0; chatList.getChatList().size() > i ; i++ ) {
+                        fetchData(i);
+                    }
                 }
                 else{
                     root.child("chatLists").child(userID).setValue(new ChatList());
@@ -63,16 +62,15 @@ public class MetaDataAdapterDTB {
 
     }
 
-    private void fetchData(){
-        for( i = 0; chatList.getChatList().size() > i ; i++ ) {
+    private void fetchData(final int i){
             root.child("chats").child(chatList.getChatList().get(i)).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if( i == 0 ) {
-                        chatMetaData.clear();
+                        chatMetaDataList.clear();
                     }
 
-                    chatMetaData.add(dataSnapshot.getValue(ChatMetaData.class));
+                    chatMetaDataList.add(dataSnapshot.getValue(ChatMetaData.class));
 
                     if (i == (chatList.getChatList().size() - 1)){
                         adapter.notifyDataSetChanged();
@@ -86,5 +84,4 @@ public class MetaDataAdapterDTB {
                 }
             });
         }
-    }
 }
