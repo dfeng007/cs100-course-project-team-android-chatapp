@@ -23,6 +23,10 @@
     <string name="customize_cancel_button">CANCEL</string>
     <string name="customize_edit_button">EDIT</string>
     <string name="profile_photo">Profile Photo</string>
+    <string name="change_image_url">Change Image URL</string>
+    <string name="change_name">Change Name</string>
+    <string name="change_email">Change Email</string>
+    <string name="change_image_url">Change Image URL</string>
 
 
 </resources>
