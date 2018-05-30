@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import chatapp.ucr.com.ucrapp.Chat.Chat;
+import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.ChatMetaData;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.FriendsList;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.UsersList;
@@ -25,6 +26,7 @@ public class FriendsListActivity extends AppCompatActivity {
     private String userID;
     private ChatInfoAdapter adapter;
     private Chat chat;
+    private AddToDatabase addToDatabase = new AddToDatabase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class FriendsListActivity extends AppCompatActivity {
                 }
 
                 String chatID = chat.createChat(chatMembers);
+
+                addToDatabase.addUsersToChat(userID, chatMembers);
 
                 Intent intent = new Intent(FriendsListActivity.this, ChatActivity.class);
                 intent.putExtra("CHATID", chatID);

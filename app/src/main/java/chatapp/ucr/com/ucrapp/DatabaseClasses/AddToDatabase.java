@@ -9,6 +9,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 import chatapp.ucr.com.ucrapp.Message.Message;
 
 public class AddToDatabase {
@@ -47,7 +49,7 @@ public class AddToDatabase {
         myref.child("usersList").setValue(usersList);
     }
 
-    public void addNewChat(final String chatID, final String userID){
+    public void addUserToChat(final String chatID, final String userID){
         myref.child("chatLists").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -65,7 +67,7 @@ public class AddToDatabase {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG, "addNewChat()");
+                Log.d(TAG, "addUserToChat()");
             }
         });
 
@@ -88,7 +90,7 @@ public class AddToDatabase {
                     else {
                         UsersList x = new UsersList();
                         x.addNewUser(userID);
-                        myref.child("usersList").setValue(x);
+                        addUsersList(x);
                     }
             }
 
@@ -97,5 +99,12 @@ public class AddToDatabase {
                 Log.d(TAG, "registerNewUser()");
             }
         });
+    }
+
+    public void addUsersToChat(String chatID, ArrayList<String> users){
+
+        for(int i = 0; users.size() > i; i++){
+            addUserToChat(chatID, users.get(i));
+        }
     }
 }
