@@ -18,45 +18,48 @@ import chatapp.ucr.com.ucrapp.DatabaseClasses.UsersList;
 
 public class ChatInfoAdapterDTB {
     private DatabaseReference root;
-    private ArrayList<UserInformation> usersInformation = new ArrayList<>();
+    private ArrayList<UserInformation> userInformationList = new ArrayList<>();
     private String userID;
     private UsersList usersList;
     private int i;
     private ChatInfoAdapter adapter;
     private final String TAG = "ChatInfoAdapterDTB";
 
-    public ChatInfoAdapterDTB(Context c, DatabaseReference ref, String userID){
+    public ChatInfoAdapterDTB(Context c, DatabaseReference ref, String userID) {
         root = ref;
         this.userID = userID;
         createChatInfoAdapter(c, retrieve());
     }
 
-    private void createChatInfoAdapter(Context c,  ArrayList<UserInformation> usersInformation) {
-        adapter = new ChatInfoAdapter(c, usersInformation, usersList);
+    private void createChatInfoAdapter(Context c, ArrayList<UserInformation> usersInformation) {
+        adapter = new ChatInfoAdapter(c, usersInformation);
     }
 
-    public ChatInfoAdapter getAdapter(){
+    public ChatInfoAdapter getAdapter() {
         return adapter;
     }
 
-    public ArrayList<UserInformation> retrieve(){
+    public ArrayList<UserInformation> retrieve() {
 
         retrieveChatInfo();
 
-        return usersInformation;
+        return userInformationList;
     }
 
-    private void retrieveChatInfo(){
+    public UsersList getUsersList() {
+        return usersList;
+    }
+
+    private void retrieveChatInfo() {
 
         root.child("usersList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     usersList = dataSnapshot.getValue(UsersList.class);
 
                     fetchData();
-                }
-                else{
+                } else {
                     root.child("usersLists").setValue(new UsersList());
                 }
             }
@@ -69,28 +72,33 @@ public class ChatInfoAdapterDTB {
 
     }
 
-    private void fetchData(){
-        for( i = 0; (usersList.getUsersList().size() - 1) > i ; i++ ) {
-            root.child("users").child(usersList.getUsersList().get(i)).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if( i == 0 ) {
-                        usersInformation.clear();
-                    }
+    private void fetchData() {
 
-                    usersInformation.add(dataSnapshot.getValue(UserInformation.class));
-
-                    if (i == (usersList.getUsersList().size() - 1)){
-                        adapter.notifyDataSetChanged();
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.d(TAG, "fetchData()");
-                }
-            });
+        for (int i = 0; usersList.getUsersList().size() > i; i++) {
+            fetchUserForList(i);
         }
+    }
+
+    private void fetchUserForList(final int i){
+        root.child("users").child(usersList.getUsersList().get(i)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(i == 0){
+                    userInformationList.clear();
+                }
+
+                userInformationList.add(dataSnapshot.getValue(UserInformation.class));
+
+                if ((usersList.getUsersList().size() - 1) == i) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

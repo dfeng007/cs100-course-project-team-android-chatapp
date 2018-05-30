@@ -35,7 +35,7 @@ public class FriendsListActivity extends AppCompatActivity {
         Button addFriendsButton = (Button) findViewById(R.id.addButton);
         ListView mListView = (ListView) findViewById(R.id.friendsListView);
 
-        ChatInfoAdapterDTB helper = new ChatInfoAdapterDTB(this, FirebaseDatabase.getInstance().getReference().getRoot(),userID);
+        final ChatInfoAdapterDTB helper = new ChatInfoAdapterDTB(this, FirebaseDatabase.getInstance().getReference().getRoot(),userID);
 
         adapter = helper.getAdapter();
         mListView.setAdapter(adapter);
@@ -49,7 +49,7 @@ public class FriendsListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ArrayList<Boolean> isCheckedList = adapter.getIsCheckedList();
-                UsersList usersList = adapter.getUsersList();
+                UsersList usersList = helper.getUsersList();
                 ArrayList<String> chatMembers = new ArrayList<>();
 
                 for (int i = 0; i < isCheckedList.size(); i++) {

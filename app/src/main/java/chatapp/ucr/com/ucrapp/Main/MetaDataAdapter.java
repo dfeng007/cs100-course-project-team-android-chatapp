@@ -31,7 +31,7 @@ public class MetaDataAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        if((metaDataList.size() - 1) < position )
+        if((metaDataList.size() - 1) >= position )
         return metaDataList.get(position);
         else{
             return null;

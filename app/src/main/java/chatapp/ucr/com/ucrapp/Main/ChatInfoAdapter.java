@@ -21,12 +21,10 @@ public class ChatInfoAdapter extends BaseAdapter {
     private ArrayList<UserInformation> usersInformation;
     private LayoutInflater mInflater;
     private ArrayList<Boolean> isCheckedList = new ArrayList<>();
-    private  UsersList usersList;
 
-    public ChatInfoAdapter(Context c, ArrayList<UserInformation> usersInformation, UsersList usersList){
+    public ChatInfoAdapter(Context c, ArrayList<UserInformation> usersInformation){
         this.usersInformation = usersInformation;
         mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.usersList = usersList;
     }
 
     @Override
@@ -49,10 +47,6 @@ public class ChatInfoAdapter extends BaseAdapter {
 
     public ArrayList<UserInformation> getUsersInformation() {
         return usersInformation;
-    }
-
-    public UsersList getUsersList() {
-        return usersList;
     }
 
     @Override
