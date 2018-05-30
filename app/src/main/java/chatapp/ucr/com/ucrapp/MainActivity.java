@@ -45,12 +45,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d(TAG,"Main Test");
-
         /*initialize the FirebaseAuth instance*/
         mAuth = FirebaseAuth.getInstance();
-        root = FirebaseDatabase.getInstance().getReference();
-        userID = mAuth.getCurrentUser().getUid();
+        root = FirebaseDatabase.getInstance().getReference().getRoot();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user == null){
+            sendToStart();
+        }else{
+            userID = mAuth.getCurrentUser().getUid();
+        }
 
         Button editProfileButton = (Button) findViewById(R.id.editProfileButton);
         Button friendsListButton = (Button) findViewById(R.id.friendsListButton);
@@ -171,6 +174,14 @@ public class MainActivity extends AppCompatActivity {
         Intent startActivityIntent = new Intent(MainActivity.this, CustomizeActivity.class);
         startActivity(startActivityIntent);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);  //if user is Signed in then UI updates to MainActivity and if not signed in then to ActivityStart
     }
 
     @Override

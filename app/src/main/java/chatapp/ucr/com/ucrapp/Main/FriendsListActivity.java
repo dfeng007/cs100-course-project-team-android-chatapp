@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import chatapp.ucr.com.ucrapp.Chat.Chat;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.ChatMetaData;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.FriendsList;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.UsersList;
@@ -23,6 +24,7 @@ public class FriendsListActivity extends AppCompatActivity {
 
     private String userID;
     private ChatInfoAdapter adapter;
+    private Chat chat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,10 @@ public class FriendsListActivity extends AppCompatActivity {
         adapter = helper.getAdapter();
         mListView.setAdapter(adapter);
 
+        String title = getIntent().getExtras().getString("TITLE");
+        String description = getIntent().getExtras().getString("DESCRIPTION");
 
+        chat = new Chat(userID, title, description);
 
         addFriendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,14 +58,10 @@ public class FriendsListActivity extends AppCompatActivity {
                     }
                 }
 
-                for (int i = 0; i < (chatMembers.size()); i++) {
-
-
-
-                }
+                String chatID = chat.createChat(chatMembers);
 
                 Intent intent = new Intent(FriendsListActivity.this, ChatActivity.class);
-                intent.putStringArrayListExtra("CHAT_MEMBER", chatMembers);
+                intent.putExtra("CHATID", chatID);
                 startActivity(intent);
             }
         });

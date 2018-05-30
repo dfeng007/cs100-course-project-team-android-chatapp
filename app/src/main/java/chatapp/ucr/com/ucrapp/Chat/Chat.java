@@ -39,7 +39,7 @@ public class Chat {
         this.userID = userID;
     }
 
-    public String createChat(){
+    public String createChat(final ArrayList<String> chatUsers){
         //need to create new unique chatID in database
         //store it and return unique chatID
 
@@ -52,12 +52,17 @@ public class Chat {
         chatMetaData.setTitle(title);
         chatMetaData.setDetails(details);
         chatMetaData.setChatID(chatID);
+        chatMetaData.setLastMessage("[Created Chat]");
 
         root.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserInformation userInformation = dataSnapshot.getValue(UserInformation.class);
                 chatMetaData.setUsername(userInformation.getUserName());
+
+                for(int i = 0; i < chatUsers.size(); i++){
+                    chatMetaData.addUserToChat(chatUsers.get(i));
+                }
 
                 root.child("chats").child(chatID).setValue(chatMetaData);
             }

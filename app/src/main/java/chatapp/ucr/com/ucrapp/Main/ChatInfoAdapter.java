@@ -36,7 +36,7 @@ public class ChatInfoAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        if((usersInformation.size() - 1) >= position )
+        if(usersInformation.size() > position )
             return usersInformation.get(position);
         else{
             return null;

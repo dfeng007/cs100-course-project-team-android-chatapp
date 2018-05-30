@@ -64,7 +64,7 @@ public class MetaDataAdapterDTB {
     }
 
     private void fetchData(){
-        for( i = 0; (chatList.getChatList().size() - 1) > i ; i++ ) {
+        for( i = 0; chatList.getChatList().size() > i ; i++ ) {
             root.child("chats").child(chatList.getChatList().get(i)).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
