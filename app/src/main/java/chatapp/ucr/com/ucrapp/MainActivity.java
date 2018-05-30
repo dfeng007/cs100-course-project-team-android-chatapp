@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
 
-        private String[] tabTitles = new String[]{"REQUESTS", "CHAT", "FRIENDS"};
+        private String[] tabTitles = new String[]{"MESSAGE LIST", "CHAT", "FRIENDS"};
 
         public SectionsPagerAdapter(FragmentManager fm) {super(fm);}
         @Override

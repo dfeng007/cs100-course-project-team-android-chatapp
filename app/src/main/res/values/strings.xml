@@ -12,7 +12,7 @@
     <string name="start_welcome_promt">Welcome UCR Chat App</string>
     <string name="login_signin_button">LOGIN</string>
     <string name="login_prompt_text">Login to your account</string>
-    <string name="main_request_tab">request</string>
+    <string name="main_request_tab">messages</string>
     <string name="main_chat_tab">chat</string>
     <string name="main_friends_tab">friends</string>
 
