@@ -5,25 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".StartActivity">
+    tools:context=".StartActivity"
+    tools:layout_editor_absoluteY="25dp">
 
     <TextView
         android:id="@+id/start_welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="268dp"
+        android:layout_marginBottom="269dp"
+        android:layout_marginTop="100dp"
         android:background="@android:color/background_dark"
-        android:fontFamily="cursive"
+        android:fontFamily="@font/atomic_age"
         android:paddingEnd="20dp"
         android:paddingStart="20dp"
         android:text="@string/start_welcome_promt"
         android:textColor="@color/colorAccent"
         android:textSize="40sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/start_register_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,29 +31,24 @@
         android:id="@+id/start_register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="13dp"
         android:backgroundTint="@color/colorAccent"
+        android:fontFamily="@font/julius_sans_one"
         android:text="@string/start_register_button"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_signin_button" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/start_signin_button"
-        android:layout_width="181dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginBottom="210dp"
         android:backgroundTint="@color/colorAccent"
         android:text="@string/start_sign_in_button"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_welcome_text" />
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

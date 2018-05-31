@@ -139,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_camera_alt_black_24dp"
-            fab:fab_label="Images"
+            fab:fab_label="Camera"
             fab:fab_size="normal" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -148,6 +148,14 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_videocam_white_24dp"
             fab:fab_label="Videos"
+            fab:fab_size="normal" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_image_white_24dp"
+            fab:fab_label="Images"
             fab:fab_size="normal" />
 
     </com.github.clans.fab.FloatingActionMenu>
