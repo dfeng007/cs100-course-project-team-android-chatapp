@@ -10,7 +10,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -26,11 +29,27 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter adapter;
     private AddToDatabase addToDatabase = new AddToDatabase();
     private String chatID;
+    private String username = "ERROR";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        FirebaseDatabase.getInstance().getReference().getRoot().child("users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        username = dataSnapshot.child(userID).child("userName")
+                                .getValue().toString();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final TextView messageBox = (TextView) findViewById(R.id.messageEditText);
@@ -46,8 +65,9 @@ public class ChatActivity extends AppCompatActivity {
 
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                addToDatabase.addMessage(new Message(messageBox.getText().toString(), "TestUser"), chatID);
+                public void onClick(View v) {
+
+                addToDatabase.addMessage(new Message(messageBox.getText().toString(), username), chatID);
                 messageBox.setText("");
             }
         });
