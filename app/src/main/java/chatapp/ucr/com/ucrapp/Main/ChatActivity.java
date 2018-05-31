@@ -35,6 +35,7 @@ public class ChatActivity extends AppCompatActivity {
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final TextView messageBox = (TextView) findViewById(R.id.messageEditText);
         ListView mListView = (ListView) findViewById(R.id.chatListView);
+        final Button enterButton = (Button) findViewById(R.id.enterButton);
 
         chatID = getIntent().getExtras().getString("CHATID");
 
@@ -43,18 +44,11 @@ public class ChatActivity extends AppCompatActivity {
         adapter = helper.getAdapter();
         mListView.setAdapter(adapter);
 
-        messageBox.setOnKeyListener(new View.OnKeyListener() {
+        enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                if(keyCode == KeyEvent.KEYCODE_ENTER){
-                    addToDatabase.addMessage(new Message(messageBox.getText().toString(), "TestName"), chatID);
-                    messageBox.setText("");
-                    return true;
-                }
-                else{
-                    return false;
-                }
+            public void onClick(View v) {
+                addToDatabase.addMessage(new Message(messageBox.getText().toString(), "TestUser"), chatID);
+                messageBox.setText("");
             }
         });
     }

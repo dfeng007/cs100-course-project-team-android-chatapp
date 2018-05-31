@@ -46,6 +46,7 @@ public class ChatAdapterDTB {
         root.child("messages").child(chatID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                messageList.clear();
                 fetchdata(dataSnapshot);
             }
 
