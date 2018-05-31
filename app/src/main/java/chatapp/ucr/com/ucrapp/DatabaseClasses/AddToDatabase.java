@@ -29,7 +29,7 @@ public class AddToDatabase {
         myref.child("users").child(userID).setValue(userInfo);
     }
 
-    public void addTextMessage(Message newMessage, String chatID) {
+    public void addMessage(Message newMessage, String chatID) {
         myref.child("messages").child(chatID).push().setValue(newMessage);
     }
 

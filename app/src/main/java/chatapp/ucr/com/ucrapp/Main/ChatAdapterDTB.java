@@ -1,4 +1,68 @@
 package chatapp.ucr.com.ucrapp.Main;
 
+import android.content.Context;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
+import chatapp.ucr.com.ucrapp.Message.Message;
+
 public class ChatAdapterDTB {
+
+    private DatabaseReference root;
+    private ArrayList<Message> messageList = new ArrayList<>();
+    private String chatID;
+    private String userID;
+    private ChatAdapter adapter;
+
+    public ChatAdapterDTB(Context c, DatabaseReference ref, String userID, String chatID) {
+        root = ref;
+        this.chatID = chatID;
+        this.userID = userID;
+        adapter = new ChatAdapter(c, retrieve(), userID);
+    }
+
+    private void createChatInfoAdapter(Context c, ArrayList<Message> messageList) {
+    }
+
+    public ChatAdapter getAdapter() {
+        return adapter;
+    }
+
+    public ArrayList<Message> retrieve() {
+
+        retrieveMessageList();
+
+        return messageList;
+    }
+
+    private void retrieveMessageList() {
+
+        root.child("messages").child(chatID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                fetchdata(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void fetchdata(DataSnapshot dataSnapshot) {
+
+        if(dataSnapshot.exists()){
+            for(DataSnapshot iterSnapshot : dataSnapshot.getChildren()){
+                messageList.add(iterSnapshot.getValue(Message.class));
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
 }
