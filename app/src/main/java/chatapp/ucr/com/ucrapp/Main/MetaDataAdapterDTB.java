@@ -38,28 +38,27 @@ public class MetaDataAdapterDTB {
     }
 
     private void retrieveMetaDataList(){
+        if(userID != null) {
+            root.child("chatLists").child(userID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        chatList = dataSnapshot.getValue(ChatList.class);
 
-        root.child("chatLists").child(userID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    chatList = dataSnapshot.getValue(ChatList.class);
-
-                    for( int i = 0; chatList.getChatList().size() > i ; i++ ) {
-                        fetchData(i);
+                        for (int i = 0; chatList.getChatList().size() > i; i++) {
+                            fetchData(i);
+                        }
+                    } else {
+                        root.child("chatLists").child(userID).setValue(new ChatList());
                     }
                 }
-                else{
-                    root.child("chatLists").child(userID).setValue(new ChatList());
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+            });
+        }
     }
 
     private void fetchData(final int i){

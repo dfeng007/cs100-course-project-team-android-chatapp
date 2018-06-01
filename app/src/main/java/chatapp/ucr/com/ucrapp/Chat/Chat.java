@@ -55,8 +55,12 @@ public class Chat {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserInformation userInformation = dataSnapshot.getValue(UserInformation.class);
-                chatMetaData.setUsername(userInformation.getUserName());
-
+                if(userInformation != null) {
+                    chatMetaData.setUsername(userInformation.getUserName());
+                }
+                else {
+                    chatMetaData.setUsername("Anonymous");
+                }
                 for(int i = 0; i < chatUsers.size(); i++){
                     chatMetaData.addUserToChat(chatUsers.get(i));
                 }

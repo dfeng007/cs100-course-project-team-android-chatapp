@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import chatapp.ucr.com.ucrapp.DatabaseClasses.ChatMetaData;
 import chatapp.ucr.com.ucrapp.Main.ChatActivity;
+import chatapp.ucr.com.ucrapp.Main.ChatAdapterDTB;
 import chatapp.ucr.com.ucrapp.Main.ChatInfoActivity;
 import chatapp.ucr.com.ucrapp.Main.MetaDataAdapter;
 import chatapp.ucr.com.ucrapp.Main.MetaDataAdapterDTB;
@@ -104,7 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
                 ArrayList<ChatMetaData> metaDataList = adapter.getMetaDataList();
 
-                sendToChat(metaDataList.get(position).getChatID());
+                if(metaDataList.get(position) != null) {
+                    sendToChat(metaDataList.get(position).getChatID());
+                }
             }
         });
 

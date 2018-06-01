@@ -65,7 +65,7 @@ public class FriendsListActivity extends AppCompatActivity {
                 addToDatabase.addUsersToChat(chatID, chatMembers);
 
                 Intent intent = new Intent(FriendsListActivity.this, ChatActivity.class);
-                intent.putExtra("CHATID", chatID);
+                intent.putExtra("chatapp.ucr.com.ucrapp.CHAT_ID", chatID);
                 startActivity(intent);
             }
         });

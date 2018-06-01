@@ -30,7 +30,7 @@ public class AddToDatabase {
     }
 
     public void addMessage(Message newMessage, String chatID) {
-        myref.child("messages").child(chatID).push().setValue(newMessage);
+            myref.child("messages").child(chatID).push().setValue(newMessage);
     }
 
     public void addChatMetaData(ChatMetaData metaData, String chatID){

@@ -55,17 +55,26 @@ public class MetaDataAdapter extends BaseAdapter {
         TextView usernameTextView = (TextView) v.findViewById(R.id.usernameEditText);
         TextView messageTextView = (TextView) v.findViewById(R.id.messageTextView);
 
-        String title = metaDataList.get(position).getTitle();
-        String username = metaDataList.get(position).getUsername();
-        String message = metaDataList.get(position).getLastMessage();
+        String title;
+        String username;
+        String message;
 
-        if(message.length() > 38){
-            message = message.substring(0, 37) + "...";
+        if(metaDataList.get(position) != null) {
+            title = metaDataList.get(position).getTitle();
+            titleTextView.setText(title);
         }
+        if(metaDataList.get(position) != null) {
+            username = metaDataList.get(position).getUsername();
+            usernameTextView.setText(username);
+        }
+        if(metaDataList.get(position) != null) {
+            message = metaDataList.get(position).getLastMessage();
 
-        titleTextView.setText(title);
-        usernameTextView.setText(username);
-        messageTextView.setText(message);
+            if(message.length() > 38){
+                message = message.substring(0, 37) + "...";
+            }
+            messageTextView.setText(message);
+        }
 
         return v;
     }

@@ -1,6 +1,9 @@
 package chatapp.ucr.com.ucrapp.Main;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,21 +44,22 @@ public class ChatAdapterDTB {
         return messageList;
     }
 
+
     private void retrieveMessageList() {
+            root.child("messages").child(chatID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    messageList.clear();
+                    fetchdata(dataSnapshot);
+                }
 
-        root.child("messages").child(chatID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                messageList.clear();
-                fetchdata(dataSnapshot);
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
 
-            }
-        });
-    }
 
     private void fetchdata(DataSnapshot dataSnapshot) {
 
