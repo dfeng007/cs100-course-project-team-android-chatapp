@@ -1,13 +1,18 @@
 package chatapp.ucr.com.ucrapp.Main;
 
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -50,14 +55,25 @@ public class ChatAdapter extends BaseAdapter{
 
         View v = mInflater.inflate(R.layout.received_messages, null);
 
-        TextView userNameTextView = (TextView) v.findViewById(R.id.text_message_name);
-        TextView messageBodyTextView = (TextView) v.findViewById(R.id.text_message_body);
-        TextView dateTextView = (TextView) v.findViewById(R.id.text_message_time);
+        if(messageList.get(position).getUrl().isEmpty()) {
+            TextView userNameTextView = (TextView) v.findViewById(R.id.text_message_name);
+            TextView messageBodyTextView = (TextView) v.findViewById(R.id.text_message_body);
+            TextView dateTextView = (TextView) v.findViewById(R.id.text_message_time);
 
-        userNameTextView.setText(messageList.get(position).getUsername());
-        messageBodyTextView.setText(messageList.get(position).getMessage());
-        dateTextView.setText(messageList.get(position).getDate());
+            userNameTextView.setText(messageList.get(position).getUsername());
+            messageBodyTextView.setText(messageList.get(position).getMessage());
+            dateTextView.setText(messageList.get(position).getDate());
+        }
+        else {
+            v = mInflater.inflate(R.layout.image_received_messages, null);
+            TextView userNameTextView = (TextView) v.findViewById(R.id.text_message_name);
+            ImageView imageMessageView = (ImageView) v.findViewById(R.id.image_message_body);
+            TextView dateTextView = (TextView) v.findViewById(R.id.text_message_time);
 
+            userNameTextView.setText(messageList.get(position).getUsername());
+            Picasso.get().load(messageList.get(position).getUrl()).resize(300,300).into(imageMessageView);
+            dateTextView.setText(messageList.get(position).getDate());
+        }
         return v;
     }
 

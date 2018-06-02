@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);  //if user is Signed in then UI updates to MainActivity and if not signed in then to ActivityStart
 
-
     }
 
     private void updateUI(FirebaseUser currentUser) {
