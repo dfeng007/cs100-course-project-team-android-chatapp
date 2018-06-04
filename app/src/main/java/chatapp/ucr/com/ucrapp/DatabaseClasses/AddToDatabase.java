@@ -49,6 +49,55 @@ public class AddToDatabase {
         myref.child("usersList").setValue(usersList);
     }
 
+    public String createChat(String userID,
+                             final ChatMetaData chatMetaData,
+                             final ArrayList<String> chatMemberIDs,
+                             final ArrayList<String> chatMemberUsernames) {
+        //need to create new unique chatID in database
+        //store it and return unique chatID
+
+
+
+        final String chatID = myref.child("messages").push().getKey();
+        chatMetaData.setChatID(chatID);
+
+        String title = chatMetaData.getTitle();
+        String details = chatMetaData.getDetails();
+
+        ArrayList<ChatUserData> userDataList = new ArrayList<>();
+
+        for (int i = 0; chatMemberIDs.size() > i; i++) {
+            ChatUserData chatUserData = new ChatUserData();
+            chatUserData.setUserID(chatMemberIDs.get(i));
+            chatUserData.setUsername(chatMemberUsernames.get(i));
+
+            userDataList.add(chatUserData);
+        }
+
+        chatMetaData.setChatMembers(userDataList);
+
+        myref.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserInformation userInformation = dataSnapshot.getValue(UserInformation.class);
+                if (userInformation != null) {
+                    chatMetaData.setUsername(userInformation.getUserName());
+                } else {
+                    chatMetaData.setUsername("Anonymous");
+                }
+
+                myref.child("chats").child(chatID).setValue(chatMetaData);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return chatID;
+    }
+
     public void addUserToChat(final String chatID, final String userID){
         myref.child("chatLists").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -75,7 +124,7 @@ public class AddToDatabase {
     }
 
     public void registerNewUser(final String userID, String username, String email){
-        UserInformation userInfo = new UserInformation(username, email);
+        UserInformation userInfo = new UserInformation(userID, username, email);
         addUser(userID, userInfo);
 
         myref.child("usersList").addListenerForSingleValueEvent(new ValueEventListener() {

@@ -30,7 +30,7 @@ public class ChatAdapterDTB {
         root = ref;
         this.chatID = chatID;
         this.userID = userID;
-        adapter = new ChatAdapter(c, retrieve(), userID);
+        adapter = new ChatAdapter(c, retrieve(), chatID);
     }
 
     private void createChatInfoAdapter(Context c, ArrayList<Message> messageList) {

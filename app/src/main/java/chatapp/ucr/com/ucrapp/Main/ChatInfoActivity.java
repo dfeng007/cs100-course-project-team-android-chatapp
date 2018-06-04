@@ -4,22 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
-
-import java.util.zip.Inflater;
-
-import chatapp.ucr.com.ucrapp.Chat.Chat;
-import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
-import chatapp.ucr.com.ucrapp.DatabaseClasses.FriendsList;
 import chatapp.ucr.com.ucrapp.R;
 
 public class ChatInfoActivity extends AppCompatActivity {

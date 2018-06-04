@@ -10,6 +10,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
 import chatapp.ucr.com.ucrapp.DatabaseClasses.UserInformation;
@@ -21,10 +23,12 @@ public class ChatInfoAdapter extends BaseAdapter {
     private ArrayList<UserInformation> usersInformation;
     private LayoutInflater mInflater;
     private ArrayList<Boolean> isCheckedList = new ArrayList<>();
+    private String userID;
 
     public ChatInfoAdapter(Context c, ArrayList<UserInformation> usersInformation){
         this.usersInformation = usersInformation;
         mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     @Override
@@ -74,10 +78,20 @@ public class ChatInfoAdapter extends BaseAdapter {
         }
 
         if((isCheckedList.size() - 1) >= position ){
-            isCheckedList.set(position, selectCheckBox.isChecked());
+            if(getUsersInformation().get(position).getUserID().equals(userID)){
+                isCheckedList.set(position, true);
+            }
+            else{
+                isCheckedList.set(position, selectCheckBox.isChecked());
+            }
         }
         else{
-            isCheckedList.add(selectCheckBox.isChecked());
+            if(getUsersInformation().get(position).getUserID().equals(userID)){
+                isCheckedList.add(true);
+            }
+            else{
+                isCheckedList.add(selectCheckBox.isChecked());
+            }
         }
 
         selectCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

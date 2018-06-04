@@ -13,10 +13,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-import chatapp.ucr.com.ucrapp.Chat.Chat;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.ChatMetaData;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.FriendsList;
+import chatapp.ucr.com.ucrapp.DatabaseClasses.UserInformation;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.UsersList;
 import chatapp.ucr.com.ucrapp.MainActivity;
 import chatapp.ucr.com.ucrapp.R;
@@ -25,7 +25,6 @@ public class FriendsListActivity extends AppCompatActivity {
 
     private String userID;
     private ChatInfoAdapter adapter;
-    private Chat chat;
     private AddToDatabase addToDatabase = new AddToDatabase();
 
     @Override
@@ -45,24 +44,30 @@ public class FriendsListActivity extends AppCompatActivity {
         String title = getIntent().getExtras().getString("TITLE");
         String description = getIntent().getExtras().getString("DESCRIPTION");
 
-        chat = new Chat(userID, title, description);
+        final ChatMetaData chatMetaData = new ChatMetaData();
+        chatMetaData.setUsername(userID);
+        chatMetaData.setTitle(title);
+        chatMetaData.setDetails(description);
 
         addFriendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<Boolean> isCheckedList = adapter.getIsCheckedList();
-                UsersList usersList = helper.getUsersList();
-                ArrayList<String> chatMembers = new ArrayList<>();
+
+                ArrayList<UserInformation> userInformationList = adapter.getUsersInformation();
+                ArrayList<String> chatMemberIDs = new ArrayList<>();
+                ArrayList<String> chatMemberUsernames = new ArrayList<>();
 
                 for (int i = 0; i < isCheckedList.size(); i++) {
                     if (isCheckedList.get(i)) {
-                        chatMembers.add(usersList.getUsersList().get(i));
+                        chatMemberIDs.add(userInformationList.get(i).getUserID());
+                        chatMemberUsernames.add(userInformationList.get(i).getUserName());
                     }
                 }
 
-                String chatID = chat.createChat(chatMembers);
+                String chatID = addToDatabase.createChat(userID, chatMetaData, chatMemberIDs, chatMemberUsernames);
 
-                addToDatabase.addUsersToChat(chatID, chatMembers);
+                addToDatabase.addUsersToChat(chatID, chatMemberIDs);
 
                 Intent intent = new Intent(FriendsListActivity.this, ChatActivity.class);
                 intent.putExtra("chatapp.ucr.com.ucrapp.CHAT_ID", chatID);

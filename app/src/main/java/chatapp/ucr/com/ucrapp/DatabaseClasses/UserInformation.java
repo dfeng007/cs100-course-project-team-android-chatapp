@@ -6,19 +6,30 @@ public class UserInformation {
     private String email;
     private String picUrl;
     private Boolean online;
+    private String userID;
 
     public UserInformation() {
         this.userName = "";
         this.email = "";
         this.online = false;
         this.picUrl = "";
+        this.userID = "";
     }
 
-    public UserInformation(String userName, String email) {
+    public UserInformation(String userID, String userName, String email) {
         this.userName = userName;
         this.email = email;
         this.online = false;
         this.picUrl = "";
+        this.userID = userID;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public void setOnline(Boolean online){ this.online = online; }

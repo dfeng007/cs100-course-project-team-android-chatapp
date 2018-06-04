@@ -5,7 +5,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,12 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask.TaskSnapshot;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import chatapp.ucr.com.ucrapp.Chat.Chat;
+import chatapp.ucr.com.ucrapp.Chat.IsTyping;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
-import chatapp.ucr.com.ucrapp.DatabaseClasses.UsersList;
 import chatapp.ucr.com.ucrapp.Message.Message;
 import chatapp.ucr.com.ucrapp.R;
 public class ChatActivity extends AppCompatActivity {
@@ -37,13 +34,20 @@ public class ChatActivity extends AppCompatActivity {
     private String chatID;
     private String username = "ERROR";
     private String download_url;
+    private IsTyping isTyping;
+    private Boolean wasTyping = false; //Used to check last instance of isTyping;
     private static final int PICK_IMAGE_REQUEST = 1 ; // if we set it to 234
     private static final int CAMRA_REQUEST_CODE = 2;
-    Button openlocal, camera;private StorageReference mStorageRef;
+    private TextView isTypingTextView;
+    Button openlocal, camera;
+    private StorageReference mStorageRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        isTypingTextView = (TextView) findViewById(R.id.isTypingTextView);
+
         getUserName();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         ListView mListView = (ListView) findViewById(R.id.chatListView);
@@ -54,7 +58,47 @@ public class ChatActivity extends AppCompatActivity {
         setupEnterButton();
         setuplocalButton();
         setupCameraButton();
+        setupIsTyping();
     }
+
+    private void setupIsTyping() {
+
+        isTyping = new IsTyping(
+                FirebaseDatabase.getInstance().getReference().getRoot(),
+                isTypingTextView, userID, chatID);
+        isTyping.addListener();
+
+        final TextView messageTextView = (TextView) findViewById(R.id.messageEditText);
+
+        messageTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if ((!wasTyping) && (!messageTextView.getText().toString().isEmpty())) {
+
+                    isTyping.setTyping(true);
+                    wasTyping = true;
+                } else {
+                    if(wasTyping && messageTextView.getText().toString().isEmpty()) {
+
+                        isTyping.setTyping(false);
+                        wasTyping = false;
+                    }
+                }
+            }
+        });
+    }
+
     private void setupCameraButton() {
         camera = (Button)findViewById( R.id.camera_button);
         camera.setOnClickListener( new OnClickListener() {

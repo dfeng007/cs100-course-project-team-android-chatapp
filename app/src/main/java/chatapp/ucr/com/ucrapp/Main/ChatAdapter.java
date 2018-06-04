@@ -23,12 +23,12 @@ import chatapp.ucr.com.ucrapp.R;
 public class ChatAdapter extends BaseAdapter{
     private ArrayList<Message> messageList;
     private LayoutInflater mInflater;
-    private String userID;
+    private String chatID;
 
-    public ChatAdapter(Context c, ArrayList<Message> messageList, String userID){
+    public ChatAdapter(Context c, ArrayList<Message> messageList, String chatID){
         this.messageList = messageList;
         mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.userID = userID;
+        this.chatID = chatID;
     }
 
     @Override

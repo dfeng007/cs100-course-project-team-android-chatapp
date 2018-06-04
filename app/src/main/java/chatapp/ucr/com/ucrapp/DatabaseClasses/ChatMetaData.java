@@ -1,7 +1,6 @@
 package chatapp.ucr.com.ucrapp.DatabaseClasses;
 
-import java.util.ArrayList;
-import java.util.Map;
+        import java.util.ArrayList;
 
 public class ChatMetaData {
     private String lastMessage;
@@ -43,6 +42,10 @@ public class ChatMetaData {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public void setChatMembers(ArrayList<ChatUserData> chatUserDataList){
+        chatMembers = chatUserDataList;
     }
 
     public ArrayList<ChatUserData> getChatMembers() { return chatMembers; }
