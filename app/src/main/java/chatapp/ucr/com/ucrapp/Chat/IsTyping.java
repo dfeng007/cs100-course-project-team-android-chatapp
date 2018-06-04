@@ -82,7 +82,7 @@ public class IsTyping {
 
                 for(int i = 0; userDataList.size() > i; i++){
                     if (userDataList.get(i).getIsTyping()){
-                        output = userDataList.get(i).getUsername() + " " + output;
+                        output = userDataList.get(i).getUsername() + ", " + output;
                     }
                 }
 
