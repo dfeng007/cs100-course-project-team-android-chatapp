@@ -56,14 +56,14 @@ public class MainActivity extends AppCompatActivity {
             userID = mAuth.getCurrentUser().getUid();
         }
 
-        Button editProfileButton = (Button) findViewById(R.id.editProfileButton);
-        Button friendsListButton = (Button) findViewById(R.id.friendsListButton);
-        Button signOutButton = (Button) findViewById(R.id.signOutButton);
-        Button createChatButton = (Button) findViewById(R.id.createChatButton);
+        Button editProfileButton = findViewById(R.id.editProfileButton);
+        Button friendsListButton = findViewById(R.id.friendsListButton);
+        Button signOutButton = findViewById(R.id.signOutButton);
+        Button createChatButton = findViewById(R.id.createChatButton);
 
         Log.d(TAG,"Main Test");
 
-        ListView mainListView = (ListView) findViewById(R.id.mainListView);
+        ListView mainListView = findViewById(R.id.mainListView);
 
         adapterHelper = new MetaDataAdapterDTB(MainActivity.this, root, userID);
 

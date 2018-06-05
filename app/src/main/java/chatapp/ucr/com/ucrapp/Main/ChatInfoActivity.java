@@ -29,11 +29,11 @@ public class ChatInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_info);
 
-        ListView mListView = (ListView) findViewById(R.id.friendsListView);
+        ListView mListView = findViewById(R.id.friendsListView);
 
-        final TextView topicTextView = (TextView) findViewById(R.id.topicEditText);
-        final TextView descriptionTextView = (TextView) findViewById(R.id.descriptionEditText);
-        Button addFriendsButton = (Button) findViewById(R.id.addFriendsButton);
+        final TextView topicTextView = findViewById(R.id.topicEditText);
+        final TextView descriptionTextView = findViewById(R.id.descriptionEditText);
+        Button addFriendsButton = findViewById(R.id.addFriendsButton);
 
         addFriendsButton.setOnClickListener(new View.OnClickListener() {
             @Override

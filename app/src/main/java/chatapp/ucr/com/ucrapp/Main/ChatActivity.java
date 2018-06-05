@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -46,7 +47,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         getUserName();
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        ListView mListView = (ListView) findViewById(R.id.chatListView);
+        ListView mListView = findViewById(R.id.chatListView);
         chatID = getIntent().getStringExtra("chatapp.ucr.com.ucrapp.CHAT_ID");
         final ChatAdapterDTB helper = new ChatAdapterDTB(this, FirebaseDatabase.getInstance().getReference().getRoot(), userID, chatID);
         adapter = helper.getAdapter();
@@ -56,7 +57,7 @@ public class ChatActivity extends AppCompatActivity {
         setupCameraButton();
     }
     private void setupCameraButton() {
-        camera = (Button)findViewById( R.id.camera_button);
+        camera = findViewById( R.id.camera_button);
         camera.setOnClickListener( new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +73,7 @@ public class ChatActivity extends AppCompatActivity {
         } );
     }
     private void setuplocalButton() {
-        openlocal = (Button)findViewById(R.id.image_button);
+        openlocal = findViewById(R.id.image_button);
         openlocal.setOnClickListener( new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,8 +89,8 @@ public class ChatActivity extends AppCompatActivity {
     }
     //This sets up the Enter button on the activity_chat.xml
     private void setupEnterButton() {
-        final Button enterButton = (Button) findViewById(R.id.enterButton);
-        final TextView messageBox = (TextView) findViewById(R.id.messageEditText);
+        final Button enterButton = findViewById(R.id.enterButton);
+        final TextView messageBox = findViewById(R.id.messageEditText);
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,21 +122,31 @@ public class ChatActivity extends AppCompatActivity {
         if( requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             //Toast.makeText( ChatActivity.this, "uploading ....1 ", Toast.LENGTH_SHORT ).show();
             final Uri imageUri = data.getData();
-            StorageReference filepath = mStorageRef.child("message_images").child( imageUri.getLastPathSegment() + ".jpg");
+            final StorageReference filepath = mStorageRef.child("message_images").child( imageUri.getLastPathSegment() + ".jpg");
+
             filepath.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<TaskSnapshot> task) {
                     if(task.isSuccessful()){
                         Toast.makeText( ChatActivity.this, "uploading .... working", Toast.LENGTH_SHORT ).show();
-                        download_url = imageUri.toString();
-                            Message newMessage = new Message();
-                            newMessage.setUrl(download_url);
-                            newMessage.setUsername(username);
-                            addToDatabase.addMessage(newMessage, chatID);
-                        download_url = "";
+                        filepath.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String image_downurl = uri.toString();
+                                Map messageMap = new HashMap();
+                                Toast.makeText( ChatActivity.this, "uploading .... working", Toast.LENGTH_SHORT ).show();
+                                Message newMessage = new Message();
+                                newMessage.setUrl(image_downurl);
+                                newMessage.setUsername(username);
+                                addToDatabase.addMessage(newMessage, chatID);
+                                download_url = "";
+                            }
+                        } );
+
                     }
                 }
             });
+
         }
     }
 }

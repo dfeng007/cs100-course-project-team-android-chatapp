@@ -59,9 +59,9 @@ public class ChatInfoAdapter extends BaseAdapter {
 
         View v = mInflater.inflate(R.layout.my_friends_list_detail, null);
 
-        TextView usernameTextView = (TextView) v.findViewById(R.id.usernameTextView);
-        TextView onlineTextField = (TextView) v.findViewById(R.id.onlieTextField);
-        final CheckBox selectCheckBox = (CheckBox) v.findViewById(R.id.selectCheckBox);
+        TextView usernameTextView = v.findViewById(R.id.usernameTextView);
+        TextView onlineTextField = v.findViewById(R.id.onlieTextField);
+        final CheckBox selectCheckBox = v.findViewById(R.id.selectCheckBox);
 
         String username = usersInformation.get(position).getUserName();
         Boolean online = usersInformation.get(position).getOnline();
