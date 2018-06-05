@@ -15,38 +15,39 @@ import chatapp.ucr.com.ucrapp.Message.Message;
 
 public class AddToDatabase {
 
-    private FirebaseDatabase database;
-    private DatabaseReference myref;
+
+    private DatabaseReference myRef;
     private final String TAG = "AddToDatabase";
 
 
     public AddToDatabase() {
-        database = FirebaseDatabase.getInstance();
-        myref = database.getReference();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
     }
 
     public void addUser(String userID, UserInformation userInfo) {
-        myref.child("users").child(userID).setValue(userInfo);
+        myRef.child("users").child(userID).setValue(userInfo);
     }
 
     public void addMessage(Message newMessage, String chatID) {
-            myref.child("messages").child(chatID).push().setValue(newMessage);
+            myRef.child("messages").child(chatID).push().setValue(newMessage);
     }
 
     public void addChatMetaData(ChatMetaData metaData, String chatID){
-        myref.child("chats").child(chatID).setValue(metaData);
+        myRef.child("chats").child(chatID).setValue(metaData);
     }
 
     public void addFriendsList(FriendsList friendsList, String userID){
-        myref.child("friendLists").child(userID).setValue(friendsList);
+        myRef.child("friendLists").child(userID).setValue(friendsList);
     }
 
     public void addChatList(ChatList chatList, String userID){
-        myref.child("chatLists").child(userID).setValue(chatList);
+        myRef.child("chatLists").child(userID).setValue(chatList);
     }
 
     public void addUsersList(UsersList usersList){
-        myref.child("usersList").setValue(usersList);
+        myRef.child("usersList").setValue(usersList);
     }
 
     public String createChat(String userID,
@@ -99,7 +100,7 @@ public class AddToDatabase {
     }
 
     public void addUserToChat(final String chatID, final String userID){
-        myref.child("chatLists").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("chatLists").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child("chatList").exists()){
@@ -127,7 +128,7 @@ public class AddToDatabase {
         UserInformation userInfo = new UserInformation(userID, username, email);
         addUser(userID, userInfo);
 
-        myref.child("usersList").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("usersList").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.child("usersList").exists()){

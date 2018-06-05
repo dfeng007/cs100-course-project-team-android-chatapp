@@ -51,9 +51,9 @@ public class MetaDataAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View v = mInflater.inflate(R.layout.my_listview_detail, null);
-        TextView titleTextView = (TextView) v.findViewById(R.id.titleTextView);
-        TextView usernameTextView = (TextView) v.findViewById(R.id.usernameEditText);
-        TextView messageTextView = (TextView) v.findViewById(R.id.messageTextView);
+        TextView titleTextView = v.findViewById(R.id.titleTextView);
+        TextView usernameTextView = v.findViewById(R.id.usernameEditText);
+        TextView messageTextView = v.findViewById(R.id.messageTextView);
 
         String title;
         String username;

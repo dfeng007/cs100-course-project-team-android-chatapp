@@ -33,8 +33,8 @@ public class FriendsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friends_list);
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Button addFriendsButton = (Button) findViewById(R.id.addButton);
-        ListView mListView = (ListView) findViewById(R.id.friendsListView);
+        Button addFriendsButton = findViewById(R.id.addButton);
+        ListView mListView = findViewById(R.id.friendsListView);
 
         final ChatInfoAdapterDTB helper = new ChatInfoAdapterDTB(this, FirebaseDatabase.getInstance().getReference().getRoot(),userID);
 
