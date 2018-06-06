@@ -24,6 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask.TaskSnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import chatapp.ucr.com.ucrapp.Chat.IsTyping;
 import chatapp.ucr.com.ucrapp.DatabaseClasses.AddToDatabase;
 import chatapp.ucr.com.ucrapp.Message.Message;

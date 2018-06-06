@@ -1,9 +1,13 @@
 package chatapp.ucr.com.ucrapp;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         /*initialize the FirebaseAuth instance*/
         mAuth = FirebaseAuth.getInstance();
         root = FirebaseDatabase.getInstance().getReference().getRoot();
@@ -56,10 +63,8 @@ public class MainActivity extends AppCompatActivity {
             userID = mAuth.getCurrentUser().getUid();
         }
 
-        Button editProfileButton = findViewById(R.id.editProfileButton);
-        Button friendsListButton = findViewById(R.id.friendsListButton);
-        Button signOutButton = findViewById(R.id.signOutButton);
-        Button createChatButton = findViewById(R.id.createChatButton);
+
+        //Button createChatButton = findViewById(R.id.createChatButton);
 
         Log.d(TAG,"Main Test");
 
@@ -69,30 +74,12 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = adapterHelper.getAdapter();
         mainListView.setAdapter(adapter);
-        
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendToProfile();
-            }
-        });
-        
-        friendsListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendFriendsList();
-            }
-        });
 
-        signOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                sendToStart();
-            }
-        });
+        FloatingActionButton fab = findViewById(R.id.createChatButton);
 
-        createChatButton.setOnClickListener(new View.OnClickListener() {
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendToCreateChat();
@@ -113,6 +100,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
     public void sendToChat(String chatID){
         Intent intent = new Intent(this, ChatActivity.class);
 
@@ -128,9 +121,6 @@ public class MainActivity extends AppCompatActivity {
     private void sendToCreateChat() {
         Intent intent = new Intent(this, ChatInfoActivity.class);
         startActivity(intent);
-    }
-
-    private void sendFriendsList() {
     }
 
     @Override

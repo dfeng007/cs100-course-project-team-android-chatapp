@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/messageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="48dp"
+        android:text="This is the last message that was sent..." />
 
     <TextView
         android:id="@+id/titleHeaderTextView"
@@ -25,16 +35,6 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/messageTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="48dp"
-        android:text="This is the last message that was sent..." />
-
-    <TextView
         android:id="@+id/usernameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,3 +43,4 @@
         android:text="User Name:"
         android:textSize="14sp" />
 </RelativeLayout>
+

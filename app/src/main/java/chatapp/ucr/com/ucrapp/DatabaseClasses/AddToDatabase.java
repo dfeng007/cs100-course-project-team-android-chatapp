@@ -59,7 +59,7 @@ public class AddToDatabase {
 
 
 
-        final String chatID = myref.child("messages").push().getKey();
+        final String chatID = myRef.child("messages").push().getKey();
         chatMetaData.setChatID(chatID);
 
         String title = chatMetaData.getTitle();
@@ -77,7 +77,7 @@ public class AddToDatabase {
 
         chatMetaData.setChatMembers(userDataList);
 
-        myref.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserInformation userInformation = dataSnapshot.getValue(UserInformation.class);
@@ -87,7 +87,7 @@ public class AddToDatabase {
                     chatMetaData.setUsername("Anonymous");
                 }
 
-                myref.child("chats").child(chatID).setValue(chatMetaData);
+                myRef.child("chats").child(chatID).setValue(chatMetaData);
             }
 
             @Override
