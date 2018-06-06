@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import chatapp.ucr.com.ucrapp.Chat.ChatUserDataArrayList;
 import chatapp.ucr.com.ucrapp.Message.Message;
 
 public class AddToDatabase {
@@ -75,7 +76,11 @@ public class AddToDatabase {
             userDataList.add(chatUserData);
         }
 
-        chatMetaData.setChatMembers(userDataList);
+        ChatUserDataArrayList chatUserDataArrayList = new ChatUserDataArrayList(userDataList);
+
+        //chatUserDataArrayList.setChatMembers(userDataList);
+
+        myRef.child("ChatUserData").child(chatID).setValue(chatUserDataArrayList);
 
         myRef.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

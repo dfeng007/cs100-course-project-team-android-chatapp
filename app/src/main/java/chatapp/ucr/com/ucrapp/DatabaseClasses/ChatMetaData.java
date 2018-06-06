@@ -9,7 +9,6 @@ public class ChatMetaData {
     private String title;
     private String details;
     private String chatID;
-    private ArrayList<ChatUserData> chatMembers;
 
     public ChatMetaData(){
         lastMessage = "";
@@ -18,14 +17,6 @@ public class ChatMetaData {
         title = "";
         details = "";
         chatID = "";
-
-        chatMembers = new ArrayList<ChatUserData>();
-    }
-
-    public void addUserToChat(String friendID){
-        ChatUserData userData = new ChatUserData();
-        userData.setUserID(friendID);
-        chatMembers.add(userData);
     }
 
     public String getChatID() {
@@ -43,12 +34,6 @@ public class ChatMetaData {
     public void setDetails(String details) {
         this.details = details;
     }
-
-    public void setChatMembers(ArrayList<ChatUserData> chatUserDataList){
-        chatMembers = chatUserDataList;
-    }
-
-    public ArrayList<ChatUserData> getChatMembers() { return chatMembers; }
 
     public void setLastMessage(String message){ lastMessage = message; }
 

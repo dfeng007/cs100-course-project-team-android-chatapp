@@ -184,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
             //Signout button in the toolbar was pressed log the user out
             mAuth.signOut();
 
+
+
             //send to start activity
             sendToStart();
 

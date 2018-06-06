@@ -37,14 +37,14 @@ public class IsTyping {
 
     //Update the database if user is typing
     public void setTyping(final Boolean typing){
-        root.child("chats").child(chatID).addListenerForSingleValueEvent(new ValueEventListener() {
+        root.child("ChatUserData").child(chatID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        ChatMetaData chatMetaData
-                                = dataSnapshot.getValue(ChatMetaData.class);
+                        ChatUserDataArrayList chatUserDataArrayList
+                                = dataSnapshot.getValue(ChatUserDataArrayList.class);
 
-                        ArrayList<ChatUserData> userDataList = chatMetaData.getChatMembers();
+                        ArrayList<ChatUserData> userDataList = chatUserDataArrayList.getChatMembers();
 
                         for(int i = 0; userDataList.size() > i; i++){
                             if (userDataList.get(i).getUserID().equals(userID)){
@@ -53,10 +53,9 @@ public class IsTyping {
                             }
                         }
 
-                        chatMetaData.setChatMembers(userDataList);
+                        chatUserDataArrayList.setChatMembers(userDataList);
 
-                        AddToDatabase addToDatabase = new AddToDatabase();
-                        addToDatabase.addChatMetaData(chatMetaData, chatID);
+                        root.child("ChatUserData").child(chatID).setValue(chatUserDataArrayList);
 
                     }
 
@@ -71,12 +70,12 @@ public class IsTyping {
     public void addListener(){
         whoIsTypingEditText.setText(IS_TYPING);
 
-        root.child("chats").child(chatID).addValueEventListener(new ValueEventListener() {
+        root.child("ChatUserData").child(chatID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 ArrayList<ChatUserData> userDataList
-                        = dataSnapshot.getValue(ChatMetaData.class).getChatMembers();
+                        = dataSnapshot.getValue(ChatUserDataArrayList.class).getChatMembers();
 
                 output = IS_TYPING;
 
