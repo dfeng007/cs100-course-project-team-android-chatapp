@@ -1,6 +1,7 @@
 package chatapp.ucr.com.ucrapp.Main;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -59,6 +65,24 @@ public class ChatAdapter extends BaseAdapter{
             TextView userNameTextView = v.findViewById(R.id.text_message_name);
             TextView messageBodyTextView = v.findViewById(R.id.text_message_body);
             TextView dateTextView = v.findViewById(R.id.text_message_time);
+            final ImageView messageImageView = v.findViewById(R.id.image_message_profile);
+
+            FirebaseDatabase.getInstance().getReference().getRoot().child("users")
+                    .child(messageList.get(position).getUserID()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    UserInformation userInformation = dataSnapshot.getValue(UserInformation.class);
+
+                    if (!userInformation.getPicUrl().isEmpty()){
+                        Picasso.get().load(userInformation.getPicUrl()).resize(32,32).into(messageImageView);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
             userNameTextView.setText(messageList.get(position).getUsername());
             messageBodyTextView.setText(messageList.get(position).getMessage());
