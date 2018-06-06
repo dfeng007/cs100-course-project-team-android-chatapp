@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 public class Message {
     private String message;
     private String username;
+    private String userID;
     private String url;
     private long timestamp;
     private String date;
@@ -16,6 +17,7 @@ public class Message {
         timestamp = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy\n hh:mm:ss a");
         date = sdf.format(timestamp);
+        userID = "";
 
     }
 
@@ -26,13 +28,22 @@ public class Message {
 //        this.url = imageUrl;
 //    }
 
-     public Message(String message, String username) {
+     public Message(String message, String username, String userID) {
         this.message = message;
         this.username = username;
+        this.userID = userID;
         this.url = "";
         timestamp = System.currentTimeMillis();
          SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy\n hh:mm:ss a");
          date = sdf.format(timestamp);
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public void setMessage(final String message) {

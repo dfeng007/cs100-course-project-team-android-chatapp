@@ -142,7 +142,7 @@ public class ChatActivity extends AppCompatActivity {
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addToDatabase.addMessage(new Message(messageBox.getText().toString(), username), chatID);
+                addToDatabase.addMessage(new Message(messageBox.getText().toString(), username, userID), chatID);
                 messageBox.setText("");
             }
         });
