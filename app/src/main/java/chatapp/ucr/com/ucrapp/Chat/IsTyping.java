@@ -37,46 +37,45 @@ public class IsTyping {
 
     //Update the database if user is typing
     public void setTyping(final Boolean typing){
-        root.child("chats").child(chatID).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        root.child("ChatUserData").child(chatID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        ChatMetaData chatMetaData
-                                = dataSnapshot.getValue(ChatMetaData.class);
+                ChatUserDataArrayList chatUserDataArrayList
+                        = dataSnapshot.getValue(ChatUserDataArrayList.class);
 
-                        ArrayList<ChatUserData> userDataList = chatMetaData.getChatMembers();
+                ArrayList<ChatUserData> userDataList = chatUserDataArrayList.getChatMembers();
 
-                        for(int i = 0; userDataList.size() > i; i++){
-                            if (userDataList.get(i).getUserID().equals(userID)){
-                                if(userDataList.get(i).getIsTyping() != typing)
-                                userDataList.get(i).setIsTyping(typing);
-                            }
-                        }
-
-                        chatMetaData.setChatMembers(userDataList);
-
-                        AddToDatabase addToDatabase = new AddToDatabase();
-                        addToDatabase.addChatMetaData(chatMetaData, chatID);
-
+                for(int i = 0; userDataList.size() > i; i++){
+                    if (userDataList.get(i).getUserID().equals(userID)){
+                        if(userDataList.get(i).getIsTyping() != typing)
+                            userDataList.get(i).setIsTyping(typing);
                     }
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                chatUserDataArrayList.setChatMembers(userDataList);
 
-                    }
-                });
+                root.child("ChatUserData").child(chatID).setValue(chatUserDataArrayList);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     //Create necessary listeners to track and update whether user is typing.
     public void addListener(){
         whoIsTypingEditText.setText(IS_TYPING);
 
-        root.child("chats").child(chatID).addValueEventListener(new ValueEventListener() {
+        root.child("ChatUserData").child(chatID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 ArrayList<ChatUserData> userDataList
-                        = dataSnapshot.getValue(ChatMetaData.class).getChatMembers();
+                        = dataSnapshot.getValue(ChatUserDataArrayList.class).getChatMembers();
 
                 output = IS_TYPING;
 
