@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import chatapp.ucr.com.ucrapp.Chat.ChatUserDataArrayList;
 import chatapp.ucr.com.ucrapp.Message.Message;
 
 public class AddToDatabase {
@@ -31,7 +32,7 @@ public class AddToDatabase {
     }
 
     public void addMessage(Message newMessage, String chatID) {
-            myRef.child("messages").child(chatID).push().setValue(newMessage);
+        myRef.child("messages").child(chatID).push().setValue(newMessage);
     }
 
     public void addChatMetaData(ChatMetaData metaData, String chatID){
@@ -75,7 +76,11 @@ public class AddToDatabase {
             userDataList.add(chatUserData);
         }
 
-        chatMetaData.setChatMembers(userDataList);
+        ChatUserDataArrayList chatUserDataArrayList = new ChatUserDataArrayList(userDataList);
+
+        //chatUserDataArrayList.setChatMembers(userDataList);
+
+        myRef.child("ChatUserData").child(chatID).setValue(chatUserDataArrayList);
 
         myRef.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -131,17 +136,17 @@ public class AddToDatabase {
         myRef.child("usersList").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.child("usersList").exists()){
-                        UsersList usersList = dataSnapshot.getValue(UsersList.class);
+                if (dataSnapshot.child("usersList").exists()){
+                    UsersList usersList = dataSnapshot.getValue(UsersList.class);
 
-                        usersList.addNewUser(userID);
-                        addUsersList(usersList);
-                    }
-                    else {
-                        UsersList x = new UsersList();
-                        x.addNewUser(userID);
-                        addUsersList(x);
-                    }
+                    usersList.addNewUser(userID);
+                    addUsersList(usersList);
+                }
+                else {
+                    UsersList x = new UsersList();
+                    x.addNewUser(userID);
+                    addUsersList(x);
+                }
             }
 
             @Override
