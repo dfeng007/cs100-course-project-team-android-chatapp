@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -124,6 +125,10 @@ public class RegisterActivity extends AppCompatActivity {
                             addToDTB.registerNewUser(userID, user_name, user_email);
 
                             sendToMain();
+
+                            FirebaseDatabase.getInstance().getReference().getRoot().child("users")
+                                    .child(userID).child("online").setValue(true);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());

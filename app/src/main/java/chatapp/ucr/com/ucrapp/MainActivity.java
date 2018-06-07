@@ -184,6 +184,9 @@ public class MainActivity extends AppCompatActivity {
             //Signout button in the toolbar was pressed log the user out
             mAuth.signOut();
 
+            FirebaseDatabase.getInstance().getReference().getRoot().child("users")
+                    .child(userID).child("online").setValue(false);
+
             //send to start activity
             sendToStart();
 

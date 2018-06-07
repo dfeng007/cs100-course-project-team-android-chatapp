@@ -207,6 +207,7 @@ public class ChatActivity extends AppCompatActivity {
                                 Message newMessage = new Message();
                                 newMessage.setUrl(image_downurl);
                                 newMessage.setUsername(username);
+                                newMessage.setUserID(userID);
                                 addToDatabase.addMessage(newMessage, chatID);
                                 download_url = "";
                             }

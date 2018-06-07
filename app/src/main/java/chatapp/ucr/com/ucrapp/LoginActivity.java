@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -100,6 +101,9 @@ public class LoginActivity extends AppCompatActivity {
 
                             //TODO: user variable needs to be used
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            FirebaseDatabase.getInstance().getReference().getRoot().child("users")
+                                    .child(user.getUid()).child("online").setValue(true);
 
                             //move to the MainActivity
                             sendToMain();
