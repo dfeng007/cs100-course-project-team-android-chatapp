@@ -7,12 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,12 +43,14 @@ public class ChatActivity extends AppCompatActivity {
     private String chatID;
     private String username = "ERROR";
     private String download_url;
+    private ChatAdapterDTB helper;
+    ListView mListView;
     private IsTyping isTyping;
     private Boolean wasTyping = false; //Used to check last instance of isTyping;
     private static final int PICK_IMAGE_REQUEST = 1 ; // if we set it to 234
     private static final int CAMRA_REQUEST_CODE = 2;
     private TextView isTypingTextView;
-    Button openlocal, camera;
+    FloatingActionButton openlocal, camera;
     private StorageReference mStorageRef;
 
     @Override
@@ -55,15 +61,25 @@ public class ChatActivity extends AppCompatActivity {
 
         getUserName();
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        ListView mListView = findViewById(R.id.chatListView);
+        mListView = findViewById(R.id.chatListView);
         chatID = getIntent().getStringExtra("chatapp.ucr.com.ucrapp.CHAT_ID");
-        final ChatAdapterDTB helper = new ChatAdapterDTB(this, FirebaseDatabase.getInstance().getReference().getRoot(), userID, chatID);
+        helper = new ChatAdapterDTB(this, FirebaseDatabase.getInstance().getReference().getRoot(), userID, chatID);
         adapter = helper.getAdapter();
         mListView.setAdapter(adapter);
-        setupEnterButton();
+        setupSendKey();
         setuplocalButton();
         setupCameraButton();
         setupIsTyping();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //helper.getAdapter(); // reload the items from database
+//        helper.updateAdapter();
+//        adapter = helper.getAdapter();
+//        mListView.setAdapter(adapter)
+
     }
 
     private void setupIsTyping() {
@@ -129,21 +145,26 @@ public class ChatActivity extends AppCompatActivity {
             }
         } );
     }
+
     private void showLocatfile() {
         Intent gallryIntent = new Intent( );
         gallryIntent.setType( "image/*" );
         gallryIntent.setAction( Intent.ACTION_GET_CONTENT );
         startActivityForResult( Intent.createChooser( gallryIntent,"SELECT IMAGE" ), PICK_IMAGE_REQUEST );
     }
-    //This sets up the Enter button on the activity_chat.xml
-    private void setupEnterButton() {
-        final Button enterButton = findViewById(R.id.enterButton);
-        final TextView messageBox = findViewById(R.id.messageEditText);
-        enterButton.setOnClickListener(new View.OnClickListener() {
+    //This sets up the send key on the keyboard to send a message on the activity_chat.xml
+    private void setupSendKey() {
+        final EditText editText = (EditText) findViewById(R.id.messageEditText);
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                addToDatabase.addMessage(new Message(messageBox.getText().toString(), username, userID), chatID);
-                messageBox.setText("");
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    addToDatabase.addMessage(new Message(editText.getText().toString(), username, userID), chatID);
+                    editText.setText("");
+                    handled = true;
+                }
+                return handled;
             }
         });
     }

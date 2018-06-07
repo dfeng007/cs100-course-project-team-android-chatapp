@@ -24,12 +24,14 @@ public class ChatAdapterDTB {
     private ArrayList<Message> messageList = new ArrayList<>();
     private String chatID;
     private String userID;
+    private Context c;
     private ChatAdapter adapter;
 
     public ChatAdapterDTB(Context c, DatabaseReference ref, String userID, String chatID) {
         root = ref;
         this.chatID = chatID;
         this.userID = userID;
+        this.c = c;
         adapter = new ChatAdapter(c, retrieve(), chatID);
     }
 
@@ -40,10 +42,13 @@ public class ChatAdapterDTB {
         return adapter;
     }
 
+    public void updateAdapter() {
+        this.messageList = retrieve();
+    }
+
     public ArrayList<Message> retrieve() {
 
         retrieveMessageList();
-
         return messageList;
     }
 

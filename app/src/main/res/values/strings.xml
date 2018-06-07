@@ -27,6 +27,7 @@
     <string name="profile_settings">Customize Profile</string>
     <string name="image_button">Image</string>
     <string name ="camera_button">Camera</string>
+    <string name="message_box_hint">Send a message&#8230;</string>
 
 
 </resources>
